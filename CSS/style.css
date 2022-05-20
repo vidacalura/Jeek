@@ -112,6 +112,11 @@ body{
     box-shadow: 2px 2px 6px #333;
 
 }
+.peca-branca{
+
+    background-color: white;
+
+}
 .peca-preta{
 
     background-color: black;
