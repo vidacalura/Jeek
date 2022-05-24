@@ -17,4 +17,8 @@ io.on("connection", (socket) => {
     socket.on("addPiece", (data) => {
         io.sockets.emit("addPiece", data);
     })
+
+    socket.on("desistir", (data) => {
+        io.sockets.emit("desistir", data);
+    })
 });
