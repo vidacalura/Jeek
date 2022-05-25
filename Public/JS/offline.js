@@ -158,8 +158,7 @@ function isConnected(casa_num){
     // Verifica se o lance é legal
     if ((casa_num != Number(casas_ativas[lances]) - 1) && (casa_num != Number(casas_ativas[lances]) + 1) &&
     (casa_num != Number(casas_ativas[lances]) - 4) && (casa_num != Number(casas_ativas[lances]) + 4)){
-        if ((jogadas != 1) && ((casa_num != Number(casas_ativas[lances - 1]) - 1) && (casa_num != Number(casas_ativas[lances - 1]) + 1) &&
-        (casa_num != Number(casas_ativas[lances - 1]) - 4) && (casa_num != Number(casas_ativas[lances - 1]) + 4))){
+        if (jogadas != 1){
             return false;
         }
     }
