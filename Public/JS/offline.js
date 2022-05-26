@@ -219,6 +219,15 @@ function isConnected(casa_num){
 
         }
     }
+
+    // Verfica se os lances são simétricos
+    if ((casas_ativas.length == 5) && 
+    (Number(casas_ativas[0]) + Number(casas_ativas[1]) + Number(casas_ativas[2])) == 
+    ((15 - Number(casas_ativas[3])) + (15 - Number(casas_ativas[4])) + (15 - casa_num))){
+        alert("O primeiro lance não pode ser espelhado");
+        passarVez();
+        return false;
+    }
     
 
     return true;
@@ -243,5 +252,3 @@ function restart(){
     window.location.reload();
 
 }
-
-// Não permitir jogadas simétricas no primeiro lance
