@@ -6,14 +6,15 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="CSS/style.css">
+        <link rel="stylesheet" type="text/css" href="CSS/output.css">
         <script src="JS/offline.js" defer> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js">  </script>
         <title> Jeek Online </title>
 
     </head>
 
 
-    <body>
+    <body class="bg-jeek-gray-600 text-white overflow-x-hidden">
 
         <!-- Navbar -->
         <nav>
@@ -22,32 +23,29 @@
 
         </nav>
 
-        <main>
+        <main class="pt-28">
 
-            <div class="jogo">
-                <!-- Chat -->
-                <div class="chat off">
+            <div class="px-16 flex justify-center">
+                <div class="">
+                    <!-- Tabuleiro -->
+                    <section class="tabuleiro w-auto mt-12">
 
-                    <input type="text" class="chat-txtbox">
+
+
+                    </section>
+
                 </div>
 
-                <!-- Tabuleiro -->
-                <section class="tabuleiro">          
 
-                    <p class="p-turn"> Vez das  </p>
-
-                </section>
-
-
-                <section class="lateral">
+                <section class="ml-4 absolute right-16">
 
                     <!-- Tempo -->
-                    <div>
-                        <div class="relogio">
+                    <div class="mt-12">
+                        <div class="relogio-brancas">
                             <p class="tempo-white">  </p>
+                        </div>
 
-                            <hr>
-
+                        <div class="relogio-pretas">
                             <p class="tempo-black">  </p>
                         </div>
                     </div>

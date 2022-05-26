@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+
+    font-family: 'Ubuntu', sans-serif;
+
+}
+
+.chat{
+
+    box-shadow: 9px 9px 5px rgba(0, 0, 0, 0.2);
+
+}
+.tabuleiro{
+
+    box-shadow: 13px 13px 9px rgba(0, 0, 0, 0.25);
+    @apply rounded-[20px];
+
+}
+.coluna{
+
+    @apply flex;
+
+}
+.casa{
+
+    @apply w-28 h-28 bg-jeek-gray-200 border border-jeek-gray-500 cursor-pointer hover:bg-jeek-gray-350;
+
+}
+.casa1{
+
+    @apply rounded-tl-[20px];
+
+}
+.casa2{
+
+    @apply rounded-tr-[20px];
+
+}
+.casa3{
+
+    @apply rounded-bl-[20px];
+
+}
+.casa4{
+
+    @apply rounded-br-[20px];
+
+}
+
+.peca-preta,
+.peca-branca{
+
+    @apply w-20 h-20 m-4 rounded-full;
+    box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
+
+}
+
+.peca-branca{
+
+    @apply bg-white;
+
+}
+.peca-preta{
+
+    @apply bg-black;
+
+}
+
+.relogio-brancas,
+.relogio-pretas{
+
+    @apply w-40 rounded-full text-3xl font-bold 
+    p-4 border-4 text-center mb-4;
+
+}
+.relogio-brancas{
+
+    @apply bg-white text-jeek-gray-600 border-white;
+
+}
+
+.botoes{
+
+    @apply text-center pt-12;
+
+}
+.botao-jogo{
+
+    @apply w-36 p-4 bg-jeek-gray-400 rounded-full mb-4 font-bold;
+
+}
+.botao-passar{
+
+    @apply bg-blue;
+
+}
+.botao-desistir{
+
+    @apply bg-red;
+
+}

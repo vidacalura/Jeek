@@ -11,12 +11,10 @@ let casas_ativas = [];
 let lances = -1;
 const passarBtn = document.querySelector(".botao-passar");
 const desistirBtn = document.querySelector(".botao-desistir");
-const p_turn = document.querySelector(".p-turn");
 tempo_w_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
 tempo_b_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
 
 clock();
-verifTurn();
 createGrid();
 gridEventListener();
 passarBtn.addEventListener("click", passarVez);
@@ -55,8 +53,6 @@ function passarVez(){
             turn = "white";
         }
 
-        verifTurn();    
-
         jogadas = 3;
     }
 
@@ -76,6 +72,20 @@ function createGrid(){
             const casa = document.createElement("div");
             casa.dataset.id = count;
             casa.classList.add("casa");
+
+            if (count == 0){
+                casa.classList.add("casa1");
+            }
+            else if(count == 3){
+                casa.classList.add("casa2");
+            }
+            else if(count == 12){
+                casa.classList.add("casa3");
+            }
+            else if(count == 15){
+                casa.classList.add("casa4");
+            }
+
             col.appendChild(casa);
 
             casas.push(casa);
@@ -83,17 +93,6 @@ function createGrid(){
             count++;
         }
     }
-
-}
-
-function verifTurn(){
-
-    if (turn == "white"){
-        p_turn.textContent = "Vez das brancas";
-    }
-    else{
-        p_turn.textContent = "Vez das pretas";
-    }    
 
 }
 
@@ -132,7 +131,6 @@ function gridEventListener(){
                     }
 
                     lances++;
-                    verifTurn();
                 }
             }
         });

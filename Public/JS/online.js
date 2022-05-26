@@ -57,6 +57,20 @@ function createGrid(){
             const casa = document.createElement("div");
             casa.dataset.id = count;
             casa.classList.add("casa");
+
+            if (count == 0){
+                casa.classList.add("casa1");
+            }
+            else if(count == 3){
+                casa.classList.add("casa2");
+            }
+            else if(count == 12){
+                casa.classList.add("casa3");
+            }
+            else if(count == 15){
+                casa.classList.add("casa4");
+            }
+
             col.appendChild(casa);
 
             casas.push(casa);
