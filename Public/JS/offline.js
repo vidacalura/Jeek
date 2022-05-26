@@ -1,7 +1,9 @@
 let turn = "white";
 let jogadas = 3;
-let tempo_w_p = document.querySelector(".tempo-white");
-let tempo_b_p = document.querySelector(".tempo-black");
+const relogio_w = document.querySelector(".relogio-brancas");
+const relogio_b = document.querySelector(".relogio-pretas");
+const tempo_w_p = document.querySelector(".tempo-white");
+const tempo_b_p = document.querySelector(".tempo-black");
 let tempo = 120;
 let tempo_w = tempo;
 let tempo_b = tempo;
@@ -11,8 +13,8 @@ let casas_ativas = [];
 let lances = -1;
 const passarBtn = document.querySelector(".botao-passar");
 const desistirBtn = document.querySelector(".botao-desistir");
-tempo_w_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
-tempo_b_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
+tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+tempo_b_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
 
 clock();
 createGrid();
@@ -26,8 +28,34 @@ async function clock(){
 
     setInterval(() => {
         (turn == "white" ? tempo_w-- : tempo_b--);
-        (turn == "white" ? tempo_w_p.textContent = Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60) 
-        : tempo_b_p.textContent = Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+
+        if (turn == "white"){
+
+            if (tempo_w % 60 < 10){
+                tempo_w_p.textContent = Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60);
+            }
+            if (tempo_w < tempo / 10){
+                relogio_w.classList.add("tempo-caindo");
+            }
+            else {
+                tempo_w_p.textContent = Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60);
+            }
+
+        }
+        else{
+
+            if (tempo_b % 60 < 10){
+                tempo_b_p.textContent = Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60);
+            }
+            if (tempo_b < tempo / 10){
+                relogio_b.classList.add("tempo-caindo");
+            }
+            else {
+                tempo_b_p.textContent = Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60);
+            }
+
+        }
+
 
         if (tempo_w == 0){
             alert("Tempo esgotado! Brancas perdem!");

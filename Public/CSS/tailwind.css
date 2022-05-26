@@ -104,3 +104,9 @@
     @apply bg-red;
 
 }
+
+.tempo-caindo{
+
+    @apply border-red;
+
+}
