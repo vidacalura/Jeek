@@ -118,7 +118,7 @@
 
 .option{
 
-    @apply py-3 px-6 hover:bg-jeek-gray-400 w-full cursor-pointer;
+    @apply py-3 px-6 hover:bg-jeek-gray-400 w-full cursor-pointer transition-all;
 
 }
 .active{

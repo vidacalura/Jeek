@@ -18,7 +18,11 @@ dropboxModosItens[0].addEventListener("click", () => {
 });
 
 dropboxTempoLabel.addEventListener("click", () => {
-    dropboxTempo.classList.add("active");
+    if (!dropboxTempo.className.includes("active"))
+        dropboxTempo.classList.add("active");
+    else
+        dropboxTempo.classList.remove("active");
+
 });
 
 dropboxTempoItens[0].addEventListener("click", () => {
@@ -65,6 +69,8 @@ menuBtn.addEventListener("click", () => {
         gridEventListener();
         passarBtn.addEventListener("click", passarVez);
         desistirBtn.addEventListener("click", desistir);
+        backBtn.addEventListener("click", goBack);
+        forwardBtn.addEventListener("click", goForward);
     }
     else{
         alert("Selecione o modo e tempo de jogo antes de iniciar a partida");
@@ -88,6 +94,9 @@ let gameIsOver = false;
 const passarBtn = document.querySelector(".botao-passar");
 const desistirBtn = document.querySelector(".botao-desistir");
 const restartBtn = document.querySelector(".botao-restart");
+let movesBack = 0;
+const backBtn = document.querySelector(".move-back");
+const forwardBtn = document.querySelector(".move-forward");
 
 createGrid();
 
@@ -196,7 +205,7 @@ function gridEventListener(){
     for (const casa_ataque of casas){
         casa_ataque.addEventListener("click", (e) => {
             if (!casas_ativas.includes(casa_ataque.dataset.id)){
-                if (jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))){
+                if ((jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))) && (movesBack == 0)){
                     // Captar e registrar movimento
                     const peca = document.createElement("div");
                     
@@ -243,6 +252,24 @@ function desistir(){
     }
 
     restart();
+
+}
+
+function goBack(){
+
+    if (movesBack < casas_ativas.length)
+        movesBack++;
+
+    casas[Number(casas_ativas[casas_ativas.length - movesBack])].firstChild.classList.add("hidden");
+
+}
+
+function goForward(){
+
+    casas[Number(casas_ativas[casas_ativas.length - movesBack])].firstChild.classList.remove("hidden");
+
+    if (movesBack > 0)
+        movesBack--;
 
 }
 
@@ -323,6 +350,10 @@ function restart(){
     restartBtn.classList.remove("hidden");
 
     restartBtn.addEventListener("click", () => {
+        casas = [];
+        casas_ativas = [];
+        lances = -1;
+        turn = "white";
         gameIsOver = false;
 
         tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
