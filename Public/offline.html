@@ -7,9 +7,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="CSS/output.css">
-        <script src="JS/online.js" defer> </script>
+        <script src="JS/offline.js" defer> </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js">  </script>
-        <script src="https://kit.fontawesome.com/de94e301a2.js" crossorigin="anonymous">  </script>
+        <link rel="shortcut icon" href="imgs/aberturadomestre.ico" type="image/x-icon">
         <title> Jeek Online </title>
 
     </head>
@@ -26,32 +26,19 @@
 
         <main class="pt-20">
 
-            <div class="px-16 flex justify-between">
-                <!-- Chat -->
-                <div class="chat bg-jeek-gray-400 w-80 h-[36rem] rounded-lg">
-                    <div class="msgs">
-
-                    </div>
-                    <div class="absolute top-[40rem] px-6 w-80 flex">
-                        <input type="text" class="chat-txtbox border-none outline-none bg-jeek-gray text-jeek-gray-700 w-full rounded-3xl pl-3 p-1" placeholder="Escreva algo aqui!">
-                        <button class="chat-btn bg-jeek-gray-500 rounded-full ml-2 px-4 text-center"> > </button>
-                    </div> 
-                </div>
-
-                <div>
+            <div class="px-16 flex justify-center">
+                <div class="">
                     <!-- Tabuleiro -->
-                    <section class="tabuleiro mt-12">
+                    <section class="tabuleiro w-auto mt-12">
 
 
 
                     </section>
 
-                    <!-- <div class="">
-                        <p class="p-turn"> Vez das  </p>
-                    </div> -->
                 </div>
 
-                <section class="">
+
+                <section class="ml-4 absolute right-16">
 
                     <!-- Tempo -->
                     <div class="mt-12">

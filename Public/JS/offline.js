@@ -31,28 +31,25 @@ async function clock(){
 
         if (turn == "white"){
 
-            if (tempo_w % 60 < 10){
-                tempo_w_p.textContent = Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60);
-            }
+
+            tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
+            : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
+
             if (tempo_w < tempo / 10){
                 relogio_w.classList.add("tempo-caindo");
             }
-            else {
-                tempo_w_p.textContent = Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60);
-            }
+
 
         }
         else{
 
-            if (tempo_b % 60 < 10){
-                tempo_b_p.textContent = Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60);
-            }
+            tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
+            : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+
             if (tempo_b < tempo / 10){
                 relogio_b.classList.add("tempo-caindo");
             }
-            else {
-                tempo_b_p.textContent = Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60);
-            }
+
 
         }
 

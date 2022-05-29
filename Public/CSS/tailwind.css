@@ -104,9 +104,35 @@
     @apply bg-red;
 
 }
+.botao-restart{
+
+    @apply bg-jeek-gray-700 text-white;
+
+}
 
 .tempo-caindo{
 
     @apply border-red;
+
+}
+
+.option{
+
+    @apply py-3 px-6 hover:bg-jeek-gray-400 w-full cursor-pointer;
+
+}
+.active{
+
+    @apply max-h-60 opacity-100;
+    
+}
+.option input{
+
+    display: none;
+
+}
+.option label{
+
+    cursor: pointer;
 
 }
