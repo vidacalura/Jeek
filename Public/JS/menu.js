@@ -352,6 +352,7 @@ function restart(){
     restartBtn.addEventListener("click", () => {
         casas = [];
         casas_ativas = [];
+        jogadas = 3;
         lances = -1;
         turn = "white";
         gameIsOver = false;
@@ -387,3 +388,17 @@ function restart(){
     });
 
 }
+
+/* Key bindings */
+document.addEventListener("keydown", (e) => {
+
+    let key = e.key;
+
+    if (key == 't'){
+        passarVez();
+    }
+    else if(key == 'd'){
+        desistir();
+    }
+
+});

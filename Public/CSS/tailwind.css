@@ -28,7 +28,7 @@
 }
 .casa{
 
-    @apply w-28 h-28 bg-jeek-gray-200 border border-jeek-gray-500 cursor-pointer hover:bg-jeek-gray-350;
+    @apply w-16 h-16 md:w-28 md:h-28 bg-jeek-gray-200 border border-jeek-gray-500 cursor-pointer hover:bg-jeek-gray-350;
 
 }
 .casa1{
@@ -55,7 +55,7 @@
 .peca-preta,
 .peca-branca{
 
-    @apply w-20 h-20 m-4 rounded-full;
+    @apply w-8 h-8 md:w-20 md:h-20 m-4 rounded-full;
     box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
 
 }

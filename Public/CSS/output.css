@@ -554,6 +554,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 20rem;
 }
 
+.w-60{
+  width: 15rem;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
@@ -741,8 +745,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .casa{
-  height: 7rem;
-  width: 7rem;
+  height: 4rem;
+  width: 4rem;
   cursor: pointer;
   border-width: 1px;
   --tw-border-opacity: 1;
@@ -753,6 +757,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .casa:hover{
   background-color: 7F7F7F;
+}
+
+@media (min-width: 768px){
+  .casa{
+    height: 7rem;
+    width: 7rem;
+  }
 }
 
 .casa1{
@@ -773,9 +784,20 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .peca-preta, .peca-branca{
   margin: 1rem;
-  height: 5rem;
-  width: 5rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 9999px;
+}
+
+@media (min-width: 768px){
+  .peca-preta, .peca-branca{
+    height: 5rem;
+    width: 5rem;
+  }
+}
+
+.peca-preta,
+.peca-branca{
   box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
 }
 
@@ -883,7 +905,27 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 768px){
+  .md\:absolute{
+    position: absolute;
+  }
+
   .md\:inline-block{
     display: inline-block;
+  }
+
+  .md\:flex{
+    display: flex;
+  }
+
+  .md\:hidden{
+    display: none;
+  }
+
+  .md\:w-\[28rem\]{
+    width: 28rem;
+  }
+
+  .md\:justify-center{
+    justify-content: center;
   }
 }

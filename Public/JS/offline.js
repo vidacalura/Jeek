@@ -87,13 +87,13 @@ function createGrid(){
 
     let count = 0;
 
-    for (let i = 0; i < 4; i++){
+    for (let i = 0; i < 8; i++){
 
         const col = document.createElement("div");
         col.classList.add("coluna");
         board.appendChild(col);
 
-        for (let j = 0; j < 4; j++){
+        for (let j = 0; j < 8; j++){
             const casa = document.createElement("div");
             casa.dataset.id = count;
             casa.classList.add("casa");
