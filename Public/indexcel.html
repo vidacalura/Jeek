@@ -9,7 +9,6 @@
         <link rel="stylesheet" type="text/css" href="CSS/output.css">
         <script src="JS/menu.js" defer>  </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js">  </script>
-        <script src="https://kit.fontawesome.com/de94e301a2.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" href="imgs/aberturadomestre.ico" type="image/x-icon">
         <title> Jeek Online </title>
 
@@ -27,7 +26,7 @@
 
         <!-- Menu -->
         <div class="menu absolute w-full h-96 text-center flex justify-center">
-            <div class="absolute w-80 md:w-[28rem] mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md">
+            <div class="absolute w-80 mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md text-sm">
                 <h1 class="text-2xl px-4 font-bold"> Selecione as configurações da partida </h1>
 
                 <div class="modos flex justify-around mt-6 mb-6 bg-jeek-gray-600 transition-all overflow-hidden rounded">
@@ -76,36 +75,33 @@
 
         <main class="pt-20">
 
-            <div class="px-16 flex justify-center">
-                <div class="tabuleiro-div blur-md">
+            <div class="px-16">
+                <div class="relogio-brancas">
+                    <p class="tempo-white">  </p>
+                </div>
+
+                <div class="tabuleiro-div w-[256px] blur-md">
 
                     <!-- Tabuleiro -->
-                    <section class="tabuleiro w-auto mt-12">
+                    <section class="tabuleiro w-full mt-12">
 
 
 
                     </section>
 
-                    <div class="absolute top-[36.7rem] w-[28rem] flex justify-between text-2xl">
-                        <button class="move-back"> <i class="fa-solid fa-angle-left">  </i> </button>
-                        <button class="move-forward"> <i class="fa-solid fa-angle-right"></i> </button>
+                    <div class="flex w-full justify-between">
+                        <button class="move-back"> < </button>
+                        <button class="move-forward"> > </button>
                     </div>
 
                 </div>
 
+                <div class="relogio-pretas text-sm blur-md">
+                    <p class="tempo-black">  </p>
+                </div>
 
-                <section class="aside-div w-40 ml-4 flex md:inline-block md:absolute right-16 blur-md">
 
-                    <!-- Tempo -->
-                    <div class="mt-12">
-                        <div class="relogio-brancas">
-                            <p class="tempo-white">  </p>
-                        </div>
-
-                        <div class="relogio-pretas">
-                            <p class="tempo-black">  </p>
-                        </div>
-                    </div>
+                <section class="aside-div w-40 ml-4 blur-md">
 
                     <!-- Texto de conclusão do jogo -->
                     <div class="w-40 pt-12 text-center">
@@ -114,11 +110,11 @@
 
                     <!-- Botões -->
                     <div class="botoes">
-                        <button class="botao-jogo botao-passar" title="Passar vez"> <i class="fa fa-arrow-right"> </i> </button> <br>
+                        <button class="botao-jogo botao-passar"> Terminar vez </button> <br>
 
-                        <button class="botao-jogo botao-desistir" title="Desistir"> <i class="fa-regular fa-flag"> </i> </button>
+                        <button class="botao-jogo botao-desistir"> Desistir </button>
 
-                        <button class="botao-jogo botao-restart hidden" title="Recomeçar"> <i class="fa fa-arrow-rotate-right"> </i> </button>
+                        <button class="botao-jogo botao-restart hidden"> Recomeçar </button>
                     </div>
 
                 </section>

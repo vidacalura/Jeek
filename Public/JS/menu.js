@@ -64,7 +64,7 @@ menuBtn.addEventListener("click", () => {
         tempo_b_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
         Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
 
-
+        // Inicialização do jogo
         clock();
         gridEventListener();
         passarBtn.addEventListener("click", passarVez);
@@ -87,6 +87,7 @@ const tempo_w_p = document.querySelector(".tempo-white");
 const tempo_b_p = document.querySelector(".tempo-black");
 const endgame_p = document.querySelector(".endgame-p");
 let board = document.querySelector(".tabuleiro");
+let returnBtnDiv = document.querySelector(".return-move-div");
 let casas = [];
 let casas_ativas = [];
 let lances = -1;
@@ -235,6 +236,7 @@ function gridEventListener(){
                     }
 
                     lances++;
+                    autoPass(casa_ataque.dataset.id);
                 }
             }
         });
@@ -318,13 +320,31 @@ function isConnected(casa_num){
     if ((casas_ativas.length == 5) && 
     (Number(casas_ativas[0]) + Number(casas_ativas[1]) + Number(casas_ativas[2])) == 
     ((15 - Number(casas_ativas[3])) + (15 - Number(casas_ativas[4])) + (15 - casa_num))){
-        alert("O primeiro lance não pode ser espelhado");
-        passarVez();
+        alert("O primeiro lance não pode ser espelhado!");
         return false;
     }
     
+    if ((casas_ativas.length == 3) &&
+    (Number(casas_ativas[0]) + Number(casas_ativas[1])) == 
+    ((15 - Number(casas_ativas[2])) + (15 - casa_num))){
+        alert("O primeiro lance não pode ser espelhado!");
+        return false;
+    }
+
 
     return true;
+
+}
+
+function autoPass(casa_num){
+
+    // Se a casa estiver cercada, passar a vez
+    if((casas_ativas.includes((Number(casa_num) - 1).toString()) || Number(casa_num) - 1 < 0 || Number(casa_num) % 4 == 0)
+    && (casas_ativas.includes((Number(casa_num) + 1).toString()) || Number(casa_num) == 3 || (Number(casa_num) == 7) || Number(casa_num) == 11 || Number(casa_num) == 15)   
+    && (casas_ativas.includes((Number(casa_num) - 4).toString()) || Number(casa_num) - 4 < 0) 
+    && (casas_ativas.includes((Number(casa_num) + 4).toString()) || Number(casa_num) + 4 > 15)){
+        passarVez();
+    }
 
 }
 
@@ -356,6 +376,7 @@ function restart(){
         lances = -1;
         turn = "white";
         gameIsOver = false;
+        movesBack = 0;
 
         tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
         Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
@@ -394,11 +415,32 @@ document.addEventListener("keydown", (e) => {
 
     let key = e.key;
 
-    if (key == 't'){
+    if (key == 'p' || key == 'P'){
         passarVez();
     }
-    else if(key == 'd'){
+    else if(key == 'd' || key == 'D'){
         desistir();
+    }
+    else if(key == "ArrowLeft"){
+        goBack();
+    }
+    else if(key == "ArrowRight"){
+        goForward();
     }
 
 });
+
+board.addEventListener("contextmenu", (e) => {
+
+    e.preventDefault();
+
+});
+
+/* 
+    if ((casas_ativas.length == 1) &&
+    (Number(casas_ativas[0]) == 
+    (15 - casa_num))){
+        alert("O primeiro lance não pode ser espelhado!");
+        return false;
+    }
+*/

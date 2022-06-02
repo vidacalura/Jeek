@@ -91,7 +91,7 @@
 }
 .botao-jogo{
 
-    @apply w-36 p-4 bg-jeek-gray-400 rounded-full mb-4 font-bold;
+    @apply w-28 p-4 bg-jeek-gray-400 rounded-full mb-4 text-xl font-bold;
 
 }
 .botao-passar{
