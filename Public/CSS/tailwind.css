@@ -55,7 +55,7 @@
 .peca-preta,
 .peca-branca{
 
-    @apply w-8 h-8 md:w-20 md:h-20 m-4 rounded-full;
+    @apply w-10 h-10 m-3 md:w-20 md:h-20 md:m-4 rounded-full;
     box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
 
 }
@@ -86,12 +86,12 @@
 
 .botoes{
 
-    @apply text-center pt-12;
+    @apply text-center md:pt-12;
 
 }
 .botao-jogo{
 
-    @apply w-28 p-4 bg-jeek-gray-400 rounded-full mb-4 text-xl font-bold;
+    @apply w-16 md:w-28 p-3 py-4 md:p-4 bg-jeek-gray-400 rounded-full mb-4 text-xl font-bold;
 
 }
 .botao-passar{
@@ -134,5 +134,10 @@
 .option label{
 
     cursor: pointer;
+
+}
+.margin0auto{
+
+    margin: 0 auto;
 
 }

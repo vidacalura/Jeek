@@ -514,8 +514,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.5rem;
 }
 
+.mt-8{
+  margin-top: 2rem;
+}
+
 .ml-2{
   margin-left: 0.5rem;
+}
+
+.mr-4{
+  margin-right: 1rem;
 }
 
 .flex{
@@ -576,6 +584,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-around{
   justify-content: space-around;
+}
+
+.gap-6{
+  gap: 1.5rem;
+}
+
+.gap-4{
+  gap: 1rem;
 }
 
 .overflow-hidden{
@@ -670,8 +686,24 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 3rem;
 }
 
+.pt-14{
+  padding-top: 3.5rem;
+}
+
 .pl-3{
   padding-left: 0.75rem;
+}
+
+.pt-2{
+  padding-top: 0.5rem;
+}
+
+.pb-2{
+  padding-bottom: 0.5rem;
+}
+
+.pt-10{
+  padding-top: 2.5rem;
 }
 
 .text-left{
@@ -792,14 +824,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .peca-preta, .peca-branca{
-  margin: 1rem;
-  height: 2rem;
-  width: 2rem;
+  margin: 0.75rem;
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 9999px;
 }
 
 @media (min-width: 768px){
   .peca-preta, .peca-branca{
+    margin: 1rem;
     height: 5rem;
     width: 5rem;
   }
@@ -842,20 +875,34 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .botoes{
-  padding-top: 3rem;
   text-align: center;
+}
+
+@media (min-width: 768px){
+  .botoes{
+    padding-top: 3rem;
+  }
 }
 
 .botao-jogo{
   margin-bottom: 1rem;
-  width: 7rem;
+  width: 4rem;
   border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(95 95 95 / var(--tw-bg-opacity));
-  padding: 1rem;
+  padding: 0.75rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 700;
+}
+
+@media (min-width: 768px){
+  .botao-jogo{
+    width: 7rem;
+    padding: 1rem;
+  }
 }
 
 .botao-passar{
@@ -908,6 +955,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .option label{
   cursor: pointer;
+}
+
+.margin0auto{
+  margin: 0 auto;
 }
 
 .hover\:bg-jeek-gray-400:hover{

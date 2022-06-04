@@ -8,8 +8,8 @@ const dropboxTempoItens = document.querySelectorAll(".dropbox-tempo .option");
 let dropboxTempoItensSelected = false;
 const tempoLabel = document.querySelector(".tempo-h2");
 const menuBtn = document.querySelector(".menu-btn");
-const tabuleiroBlur = document.querySelector(".tabuleiro-div");
-const botoesBlur = document.querySelector(".aside-div");
+const tabuleiroDiv = document.querySelector(".tabuleiro-div");
+const blur = document.querySelectorAll(".blur-md");
 let tempo, tempo_w, tempo_b;
 
 dropboxModosItens[0].addEventListener("click", () => {
@@ -53,8 +53,9 @@ menuBtn.addEventListener("click", () => {
     if (dropboxModosItensSelected == true && dropboxTempoItensSelected == true){
         menu.classList.add("hidden");
 
-        tabuleiroBlur.classList.remove("blur-md");
-        botoesBlur.classList.remove("blur-md");
+        for (const blured of blur){
+            blured.classList.remove("blur-md");
+        }
 
         tempo_w = tempo;
         tempo_b = tempo;
@@ -386,7 +387,7 @@ function restart(){
         board.remove();
         board = document.createElement("section");
         board.classList = "tabuleiro w-auto mt-12";
-        tabuleiroBlur.appendChild(board);
+        tabuleiroDiv.appendChild(board);
 
         tempo_w = tempo;
         tempo_b = tempo;
@@ -409,6 +410,17 @@ function restart(){
     });
 
 }
+
+/*
+function checkScreen(){
+
+    if (window.innerWidth < 768) {
+        window.location = "indexcel.html";
+        isComputer = false;
+    }
+
+}
+*/
 
 /* Key bindings */
 document.addEventListener("keydown", (e) => {
