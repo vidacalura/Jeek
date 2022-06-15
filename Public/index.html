@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-bt">
 
     <head>
 
@@ -16,118 +16,37 @@
     </head>
 
 
-    <body class="bg-jeek-gray-600 text-white overflow-x-hidden">
-
-        <script>
-            if (window.innerWidth < 768) {
-                window.location = "indexcel.html";
-            }
-        </script>
-
-        <!-- Navbar -->
-        <nav>
-
-
-
+    <body class="bg-jeek-gray-600 text-white overflow-x-hidden md:overflow-y-hidden">
+        
+        <nav class="pt-4 px-6 hidden md:flex">
+            <img src="imgs/aberturadomestre.ico" class="rounded-md w-8 h-auto shadow-md" alt="Logo Jeek Online">
+            <h2 class="text-jeek-gray-100 font-bold pt-1 pl-4"> Jeek Online </h2>
         </nav>
 
-        <!-- Menu -->
-        <div class="menu absolute w-full h-96 text-center flex justify-center">
-            <div class="absolute w-80 md:w-[28rem] mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md">
-                <h1 class="text-2xl px-4 font-bold"> Selecione as configurações da partida </h1>
+        <main class="md:flex w-screen sm:pt-16 pt-4">
 
-                <div class="modos flex justify-around mt-6 mb-6 bg-jeek-gray-600 transition-all overflow-hidden rounded">
-                    <div class="option">
-                        <input type="radio" name="modo" id="local">
-                        <label for="modo"> Jogo local </label>
-                    </div>
+            <!-- Parte da esquerda -->
+            <div class="md:w-[50%] md:pt-20 px-12 sm:px-20 pb-12 md:py-20 text-center">
 
-                    <div class="option">
-                        <input type="radio" name="modo" id="online">
-                        <label for="modo"> Jogo online <br> (em breve) </label>
-                    </div>
+                <h1 class="font-bold text-6xl menu-title"> Jeek Online </h1>
+
+                <p class="pt-10 text-lg"> 
+                    Jogue Jeek em qualquer lugar e a qualquer hora 
+                    de forma totalmente gratuita! 
+                </p>
+
+                <div class="w-full flex justify-center gap-2 sm:gap-6 pt-8">
+                    <a href="offline.html"> <button class="mt-1 p-3 py-4 rounded-full border-2 border-white w-40 text-xl font-bold transition-all hover:scale-110"> Jogar offline </button> </a>
+                    <a href="online.html"> <button class="p-3 rounded-full bg-white text-jeek-gray-600 w-40 text-xl font-bold transition-all hover:scale-110"> Jogar online <br> <p class="text-sm font-normal"> (em breve) </p> </button> </a>
                 </div>
 
-                <div class="text-left">
-                    <div class="dropbox-tempo-label bg-jeek-gray-600 rounded p-3 pl-6 relative cursor-pointer hover:bg-jeek-gray-400">
-                        <h2 class="tempo-h2"> Tempo: </h2>
-                    </div>
-
-                    <div class="dropbox-tempo mt-2 mb-6 bg-jeek-gray-600 transition-all overflow-hidden rounded max-h-0 opacity-0">
-                        <div class="option">
-                            <input type="radio" name="tempo-radio" id="tempo-bullet">
-                            <label for="tempo-radio"> Bullet - 15 segundos </label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" name="tempo-radio" id="tempo-blitz">
-                            <label for="tempo-radio"> Blitz - 30 segundos </label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" name="tempo-radio" id="tempo-rapida">
-                            <label for="tempo-radio"> Rápida - 1 minuto </label>
-                        </div>
-
-                        <div class="option">
-                            <input type="radio" name="tempo-radio" id="tempo-classica">
-                            <label for="tempo-radio"> Clássica - 2 minutos </label>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="menu-btn bg-black p-3 rounded-full"> Iniciar partida </button>
             </div>
-        </div>
 
-        <main class="pt-20">
-
-            <div class="px-16 flex justify-center">
-                <div class="tabuleiro-div blur-md">
-
-                    <!-- Tabuleiro -->
-                    <section class="tabuleiro w-auto mt-12">
-
-
-
-                    </section>
-
-                    <div class="absolute top-[36.7rem] w-[28rem] flex justify-between text-2xl">
-                        <button class="move-back"> <i class="fa-solid fa-angle-left">  </i> </button>
-                        <button class="move-forward"> <i class="fa-solid fa-angle-right"></i> </button>
-                    </div>
+            <!-- Tabuleiro -->
+            <div class="w-full md:w-[50%] flex justify-center">
+                <div class="tabuleiro-simulacao lg:pr-20">
 
                 </div>
-
-
-                <section class="aside-div w-40 ml-4 flex md:inline-block md:absolute right-16 blur-md">
-
-                    <!-- Tempo -->
-                    <div class="mt-12">
-                        <div class="relogio-brancas">
-                            <p class="tempo-white">  </p>
-                        </div>
-
-                        <div class="relogio-pretas">
-                            <p class="tempo-black">  </p>
-                        </div>
-                    </div>
-
-                    <!-- Texto de conclusão do jogo -->
-                    <div class="w-40 pt-12 text-center">
-                        <p class="endgame-p italic">  </p>
-                    </div>
-
-                    <!-- Botões -->
-                    <div class="botoes">
-                        <button class="botao-jogo botao-passar" title="Passar vez"> <i class="fa fa-arrow-right"> </i> </button> <br>
-
-                        <button class="botao-jogo botao-desistir" title="Desistir"> <i class="fa-regular fa-flag"> </i> </button>
-
-                        <button class="botao-jogo botao-restart hidden" title="Recomeçar"> <i class="fa fa-arrow-rotate-right"> </i> </button>
-                    </div>
-
-                </section>
             </div>
 
         </main>

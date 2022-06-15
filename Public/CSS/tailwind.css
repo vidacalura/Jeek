@@ -10,6 +10,11 @@
 
 }
 
+.menu-title{
+
+    text-shadow: 6px 6px 9px rgba(0, 0, 0, 0.15);
+
+}
 .chat{
 
     box-shadow: 9px 9px 5px rgba(0, 0, 0, 0.2);

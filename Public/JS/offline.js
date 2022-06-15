@@ -1,66 +1,150 @@
+let startSound = new Audio("../Public/imgs/startSound.mkv");
+startSound.crossOrigin = "anonymous";
+let endSound = new Audio("../Public/imgs/lichessCheckmate.mkv");
+endSound.crossOrigin = "anonymous";
+
+/* Menu de tempo */
+const menu = document.querySelector(".menu");
+const dropboxTempoLabel = document.querySelector(".dropbox-tempo-label");
+const dropboxTempo = document.querySelector(".dropbox-tempo");
+const dropboxTempoItens = document.querySelectorAll(".dropbox-tempo .option");
+let dropboxTempoItensSelected = false;
+const tempoLabel = document.querySelector(".tempo-h2");
+const menuBtn = document.querySelector(".menu-btn");
+const tabuleiroDiv = document.querySelector(".tabuleiro-div");
+const blur = document.querySelectorAll(".blur-md");
+let tempo, tempo_w, tempo_b;
+
+dropboxTempoLabel.addEventListener("click", () => {
+    if (!dropboxTempo.className.includes("active"))
+        dropboxTempo.classList.add("active");
+    else
+        dropboxTempo.classList.remove("active");
+
+});
+
+dropboxTempoItens[0].addEventListener("click", () => {
+    tempo = 15;
+    dropboxTempoItensSelected = true;
+    dropboxTempo.classList.remove("active");
+});
+dropboxTempoItens[1].addEventListener("click", () => {
+    tempo = 30;
+    dropboxTempoItensSelected = true;
+    dropboxTempo.classList.remove("active");
+});
+dropboxTempoItens[2].addEventListener("click", () => {
+    tempo = 60;
+    dropboxTempoItensSelected = true;
+    dropboxTempo.classList.remove("active");
+});
+dropboxTempoItens[3].addEventListener("click", () => {
+    tempo = 120;
+    dropboxTempoItensSelected = true;
+    dropboxTempo.classList.remove("active");
+});
+
+for (const item of dropboxTempoItens){
+    item.addEventListener("click", () => {
+        tempoLabel.textContent = "Tempo: " + (tempo < 60 ? tempo + " s" : tempo / 60 + " min");
+    });
+}
+
+menuBtn.addEventListener("click", () => {
+    if (dropboxTempoItensSelected == true){
+        startSound.play();
+
+        menu.classList.add("hidden");
+
+        for (const blured of blur){
+            blured.classList.remove("blur-md");
+        }
+
+        tempo_w = tempo;
+        tempo_b = tempo;
+
+        tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
+        Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+        tempo_b_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
+        Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+
+        // Inicialização do jogo
+        clock();
+        gridEventListener();
+        passarBtn.addEventListener("click", passarVez);
+        desistirBtn.addEventListener("click", desistir);
+        backBtn.addEventListener("click", goBack);
+        forwardBtn.addEventListener("click", goForward);
+    }
+    else{
+        alert("Selecione o modo e tempo de jogo antes de iniciar a partida");
+    }
+
+});
+
+/* Jogo */ 
 let turn = "white";
 let jogadas = 3;
 const relogio_w = document.querySelector(".relogio-brancas");
 const relogio_b = document.querySelector(".relogio-pretas");
 const tempo_w_p = document.querySelector(".tempo-white");
 const tempo_b_p = document.querySelector(".tempo-black");
-let tempo = 120;
-let tempo_w = tempo;
-let tempo_b = tempo;
-const board = document.querySelector(".tabuleiro");
+const endgame_p = document.querySelector(".endgame-p");
+let board = document.querySelector(".tabuleiro");
+let returnBtnDiv = document.querySelector(".return-move-div");
 let casas = [];
 let casas_ativas = [];
 let lances = -1;
+let gameIsOver = false;
 const passarBtn = document.querySelector(".botao-passar");
 const desistirBtn = document.querySelector(".botao-desistir");
-tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
-tempo_b_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+const restartBtn = document.querySelector(".botao-restart");
+let movesBack = 0;
+const backBtn = document.querySelector(".move-back");
+const forwardBtn = document.querySelector(".move-forward");
 
-clock();
 createGrid();
-gridEventListener();
-passarBtn.addEventListener("click", passarVez);
-desistirBtn.addEventListener("click", desistir);
-
 
 // async func para tempo
 async function clock(){
 
     setInterval(() => {
-        (turn == "white" ? tempo_w-- : tempo_b--);
+        if (gameIsOver == false){
+            (turn == "white" ? tempo_w-- : tempo_b--);
 
-        if (turn == "white"){
+            if (turn == "white"){
 
 
-            tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
-            : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
+                tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
+                : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
 
-            if (tempo_w < tempo / 10){
-                relogio_w.classList.add("tempo-caindo");
+                if (tempo_w < tempo / 10){
+                    relogio_w.classList.add("tempo-caindo");
+                }
+
+
+            }
+            else{
+
+                tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
+                : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+
+                if (tempo_b < tempo / 10){
+                    relogio_b.classList.add("tempo-caindo");
+                }
+
+
             }
 
 
-        }
-        else{
-
-            tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
-            : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
-
-            if (tempo_b < tempo / 10){
-                relogio_b.classList.add("tempo-caindo");
+            if (tempo_w == 0){
+                endgame_p.textContent = "Tempo esgotado! Brancas perdem!";
+                restart();
             }
-
-
-        }
-
-
-        if (tempo_w == 0){
-            alert("Tempo esgotado! Brancas perdem!");
-            restart();
-        }
-        else if (tempo_b == 0){
-            alert("Tempo esgotado! Pretas perdem!");
-            restart();
+            else if (tempo_b == 0){
+                endgame_p.textContent = "Tempo esgotado! Pretas perdem!";
+                restart();
+            }
         }
 
     }, 1000);
@@ -87,13 +171,13 @@ function createGrid(){
 
     let count = 0;
 
-    for (let i = 0; i < 8; i++){
+    for (let i = 0; i < 4; i++){
 
         const col = document.createElement("div");
         col.classList.add("coluna");
         board.appendChild(col);
 
-        for (let j = 0; j < 8; j++){
+        for (let j = 0; j < 4; j++){
             const casa = document.createElement("div");
             casa.dataset.id = count;
             casa.classList.add("casa");
@@ -126,7 +210,7 @@ function gridEventListener(){
     for (const casa_ataque of casas){
         casa_ataque.addEventListener("click", (e) => {
             if (!casas_ativas.includes(casa_ataque.dataset.id)){
-                if (jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))){
+                if ((jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))) && (movesBack == 0)){
                     // Captar e registrar movimento
                     const peca = document.createElement("div");
                     
@@ -156,6 +240,7 @@ function gridEventListener(){
                     }
 
                     lances++;
+                    autoPass(casa_ataque.dataset.id);
                 }
             }
         });
@@ -166,13 +251,31 @@ function gridEventListener(){
 function desistir(){
 
     if (turn == "white"){
-        alert("Brancas desistem. Pretas ganham!");
+        endgame_p.textContent = "Brancas desistem. Pretas ganham!";
     }
     else {
-        alert("Pretas desistem. Brancas ganham!");
+        endgame_p.textContent = "Pretas desistem. Brancas ganham!";
     }
 
     restart();
+
+}
+
+function goBack(){
+
+    if (movesBack < casas_ativas.length)
+        movesBack++;
+
+    casas[Number(casas_ativas[casas_ativas.length - movesBack])].firstChild.classList.add("hidden");
+
+}
+
+function goForward(){
+
+    casas[Number(casas_ativas[casas_ativas.length - movesBack])].firstChild.classList.remove("hidden");
+
+    if (movesBack > 0)
+        movesBack--;
 
 }
 
@@ -219,25 +322,45 @@ function isConnected(casa_num){
 
     // Verfica se os lances são simétricos
     if ((casas_ativas.length == 5) && 
+    (turn == "black") &&
     (Number(casas_ativas[0]) + Number(casas_ativas[1]) + Number(casas_ativas[2])) == 
     ((15 - Number(casas_ativas[3])) + (15 - Number(casas_ativas[4])) + (15 - casa_num))){
-        alert("O primeiro lance não pode ser espelhado");
-        passarVez();
+        alert("O primeiro lance não pode ser espelhado!");
         return false;
     }
     
+    if ((casas_ativas.length == 3) &&
+    (turn == "black") &&
+    (Number(casas_ativas[0]) + Number(casas_ativas[1])) == 
+    ((15 - Number(casas_ativas[2])) + (15 - casa_num))){
+        alert("O primeiro lance não pode ser espelhado!");
+        return false;
+    }
+
 
     return true;
+
+}
+
+function autoPass(casa_num){
+
+    // Se a casa estiver cercada, passar a vez
+    if((casas_ativas.includes((Number(casa_num) - 1).toString()) || Number(casa_num) - 1 < 0 || Number(casa_num) % 4 == 0)
+    && (casas_ativas.includes((Number(casa_num) + 1).toString()) || Number(casa_num) == 3 || (Number(casa_num) == 7) || Number(casa_num) == 11 || Number(casa_num) == 15)   
+    && (casas_ativas.includes((Number(casa_num) - 4).toString()) || Number(casa_num) - 4 < 0) 
+    && (casas_ativas.includes((Number(casa_num) + 4).toString()) || Number(casa_num) + 4 > 15)){
+        passarVez();
+    }
 
 }
 
 function endgame(){
 
     if (turn == "white"){
-        alert("Brancas ganham!");
+        endgame_p.textContent = "Vitória das brancas!";
     }
     else{
-        alert("Pretas ganham!");
+        endgame_p.textContent = "Vitória das pretas!";
     }
 
     restart();
@@ -246,6 +369,86 @@ function endgame(){
 
 function restart(){
 
-    window.location.reload();
+    gameIsOver = true;
+    endSound.play();
+
+    passarBtn.classList.add("hidden");
+    desistirBtn.classList.add("hidden");
+    restartBtn.classList.remove("hidden");
+
+    restartBtn.addEventListener("click", () => {
+        casas = [];
+        casas_ativas = [];
+        jogadas = 3;
+        lances = -1;
+        turn = "white";
+        gameIsOver = false;
+        movesBack = 0;
+
+        tempo_w_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
+        Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+        tempo_b_p.textContent = (tempo % 60 == 0 ? Math.floor(tempo / 60) + ":" +
+        Math.floor(tempo % 60) + "0" : Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60));
+
+        board.remove();
+        board = document.createElement("section");
+        board.classList = "tabuleiro w-auto mt-12";
+        tabuleiroDiv.appendChild(board);
+
+        tempo_w = tempo;
+        tempo_b = tempo;
+
+        if (relogio_w.className.includes("tempo-caindo")){
+            relogio_w.classList.remove("tempo-caindo");
+        }    
+        if (relogio_b.className.includes("tempo-caindo")){
+            relogio_b.classList.remove("tempo-caindo");
+        }
+
+        createGrid();
+        gridEventListener();
+
+        passarBtn.classList.remove("hidden");
+        desistirBtn.classList.remove("hidden");
+        restartBtn.classList.add("hidden");
+
+        endgame_p.textContent = "";
+        startSound.play();
+    });
 
 }
+
+/* Key bindings */
+document.addEventListener("keydown", (e) => {
+
+    let key = e.key;
+
+    if (key == 'p' || key == 'P'){
+        passarVez();
+    }
+    else if(key == 'd' || key == 'D'){
+        desistir();
+    }
+    else if(key == "ArrowLeft"){
+        goBack();
+    }
+    else if(key == "ArrowRight"){
+        goForward();
+    }
+
+});
+
+board.addEventListener("contextmenu", (e) => {
+
+    e.preventDefault();
+
+});
+
+/* 
+    if ((casas_ativas.length == 1) &&
+    (Number(casas_ativas[0]) == 
+    (15 - casa_num))){
+        alert("O primeiro lance não pode ser espelhado!");
+        return false;
+    }
+*/

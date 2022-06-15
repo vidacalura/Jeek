@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="CSS/output.css">
-        <script src="JS/menu.js" defer>  </script>
+        <script src="JS/offline.js" defer>  </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js">  </script>
         <script src="https://kit.fontawesome.com/de94e301a2.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" href="imgs/aberturadomestre.ico" type="image/x-icon">
@@ -16,30 +16,23 @@
     </head>
 
 
-    <body class="bg-jeek-gray-600 text-white overflow-hidden">
+    <body class="bg-jeek-gray-600 text-white overflow-x-hidden">
 
         <script>
-            if (window.innerWidth >= 768) {
-                window.location = "index.html";
+            if (window.innerWidth < 768) {
+                window.location = "offlinecel.html";
             }
         </script>
 
+        <!-- Navbar -->
+        <nav>
+
+        </nav>
+
         <!-- Menu -->
         <div class="menu absolute w-full h-96 text-center flex justify-center">
-            <div class="absolute w-80 mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md text-sm">
-                <h1 class="text-2xl px-4 font-bold"> Selecione as configurações da partida </h1>
-
-                <div class="modos flex justify-around mt-6 mb-6 bg-jeek-gray-600 transition-all overflow-hidden rounded">
-                    <div class="option">
-                        <input type="radio" name="modo" id="local">
-                        <label for="modo"> Jogo local </label>
-                    </div>
-
-                    <div class="option">
-                        <input type="radio" name="modo" id="online">
-                        <label for="modo"> Jogo online <br> (em breve) </label>
-                    </div>
-                </div>
+            <div class="absolute w-80 md:w-[28rem] mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md">
+                <h1 class="text-2xl px-4 font-bold pb-12"> Selecione as configurações da partida </h1>
 
                 <div class="text-left">
                     <div class="dropbox-tempo-label bg-jeek-gray-600 rounded p-3 pl-6 relative cursor-pointer hover:bg-jeek-gray-400">
@@ -69,47 +62,50 @@
                     </div>
                 </div>
 
-                <button class="menu-btn bg-black p-3 rounded-full"> Iniciar partida </button>
+                <button class="menu-btn bg-black transition-all hover:bg-jeek-gray-400 p-3 px-4 rounded-full"> Iniciar partida </button>
             </div>
         </div>
 
-        <main class="pt-10 flex justify-center">
+        <main class="pt-20">
 
-            <div class="">
-                <div class="relogio-brancas blur-md">
-                    <p class="tempo-white">  </p>
-                </div>
-
-                <div class="tabuleiro-div w-[256px] blur-md">
+            <div class="px-16 flex justify-center">
+                <div class="tabuleiro-div blur-md">
 
                     <!-- Tabuleiro -->
-                    <section class="tabuleiro w-full mt-12">
+                    <section class="tabuleiro w-auto mt-12">
 
 
 
                     </section>
 
-                    <div class="hidden w-full justify-between">
-                        <button class="move-back"> < </button>
-                        <button class="move-forward"> > </button>
+                    <div class="absolute top-[36.7rem] w-[28rem] flex justify-between text-2xl">
+                        <button class="move-back"> <i class="fa-solid fa-angle-left">  </i> </button>
+                        <button class="move-forward"> <i class="fa-solid fa-angle-right"></i> </button>
                     </div>
 
                 </div>
 
-                <div class="relogio-pretas text-sm mt-8 blur-md">
-                    <p class="tempo-black">  </p>
-                </div>
 
+                <section class="aside-div w-40 ml-4 flex md:inline-block md:absolute right-16 blur-md">
 
-                <section class="aside-div w-full text-center ml-4 blur-md">
+                    <!-- Tempo -->
+                    <div class="mt-12">
+                        <div class="relogio-brancas">
+                            <p class="tempo-white">  </p>
+                        </div>
+
+                        <div class="relogio-pretas">
+                            <p class="tempo-black">  </p>
+                        </div>
+                    </div>
 
                     <!-- Texto de conclusão do jogo -->
-                    <div class="w-full pt-2 pb-2 text-center">
+                    <div class="w-40 pt-12 text-center">
                         <p class="endgame-p italic">  </p>
                     </div>
 
                     <!-- Botões -->
-                    <div class="botoes gap-4 flex justify-center">
+                    <div class="botoes">
                         <button class="botao-jogo botao-passar" title="Passar vez"> <i class="fa fa-arrow-right"> </i> </button> <br>
 
                         <button class="botao-jogo botao-desistir" title="Desistir"> <i class="fa-regular fa-flag"> </i> </button>
