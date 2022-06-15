@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="CSS/output.css">
-        <script src="JS/menu.js" defer>  </script>
+        <script src="JS/offline.js" defer>  </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js">  </script>
         <script src="https://kit.fontawesome.com/de94e301a2.js" crossorigin="anonymous"></script>
         <link rel="shortcut icon" href="imgs/aberturadomestre.ico" type="image/x-icon">
@@ -27,19 +27,7 @@
         <!-- Menu -->
         <div class="menu absolute w-full h-96 text-center flex justify-center">
             <div class="absolute w-80 mt-12 bg-jeek-gray-700 z-10 rounded-lg p-6 shadow-md text-sm">
-                <h1 class="text-2xl px-4 font-bold"> Selecione as configurações da partida </h1>
-
-                <div class="modos flex justify-around mt-6 mb-6 bg-jeek-gray-600 transition-all overflow-hidden rounded">
-                    <div class="option">
-                        <input type="radio" name="modo" id="local">
-                        <label for="modo"> Jogo local </label>
-                    </div>
-
-                    <div class="option">
-                        <input type="radio" name="modo" id="online">
-                        <label for="modo"> Jogo online <br> (em breve) </label>
-                    </div>
-                </div>
+                <h1 class="text-2xl px-4 font-bold pb-12"> Selecione as configurações da partida </h1>
 
                 <div class="text-left">
                     <div class="dropbox-tempo-label bg-jeek-gray-600 rounded p-3 pl-6 relative cursor-pointer hover:bg-jeek-gray-400">
@@ -109,7 +97,7 @@
                     </div>
 
                     <!-- Botões -->
-                    <div class="botoes gap-4 flex justify-center">
+                    <div class="botoes w-screen absolute left-0 gap-4 flex justify-center">
                         <button class="botao-jogo botao-passar" title="Passar vez"> <i class="fa fa-arrow-right"> </i> </button> <br>
 
                         <button class="botao-jogo botao-desistir" title="Desistir"> <i class="fa-regular fa-flag"> </i> </button>

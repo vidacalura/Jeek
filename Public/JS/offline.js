@@ -1,6 +1,6 @@
-let startSound = new Audio("../Public/imgs/startSound.mkv");
+let startSound = new Audio("../imgs/startSound.mkv");
 startSound.crossOrigin = "anonymous";
-let endSound = new Audio("../Public/imgs/lichessCheckmate.mkv");
+let endSound = new Audio("../imgs/lichessCheckmate.mkv");
 endSound.crossOrigin = "anonymous";
 
 /* Menu de tempo */
