@@ -347,7 +347,6 @@ function isConnected(casa_num){
     (turn == "black") &&
     (Number(casas_ativas[0]) + Number(casas_ativas[1])) == 
     ((15 - Number(casas_ativas[2])) + (15 - casa_num))){
-        alert("O primeiro lance não pode ser espelhado!");
         return false;
     }
 
@@ -364,7 +363,21 @@ function autoPass(casa_num){
         if (!isConnected(casa_num + 1) || casas_ativas.includes((casa_num + 1).toString())){
             if (!isConnected(casa_num - 4) || casas_ativas.includes((casa_num - 4).toString())){
                 if (!isConnected(casa_num + 4) || casas_ativas.includes((casa_num + 4).toString())){
-                    passarVez();
+                    if (jogadas != 3){
+                        casa_ant = Number(casas_ativas[lances - 1]);
+                        if (!isConnected(casa_ant - 1) || casas_ativas.includes((casa_ant - 1).toString())){
+                            if (!isConnected(casa_ant + 1) || casas_ativas.includes((casa_ant + 1).toString())){
+                                if (!isConnected(casa_ant - 4) || casas_ativas.includes((casa_ant - 4).toString())){
+                                    if (!isConnected(casa_ant + 4) || casas_ativas.includes((casa_ant + 4).toString())){
+                                        passarVez();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        passarVez();
+                    }
                 }
             }
         }
