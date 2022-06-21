@@ -1,6 +1,7 @@
 const board = document.querySelector(".tabuleiro-simulacao");
 let casas = [];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const sleepTime = 500;
 
 createGrid();
 simulacao();
@@ -59,35 +60,35 @@ async function simulacao(){
     }
 
     casas[0].appendChild(peca_branca[0]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[1].appendChild(peca_branca[1]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[2].appendChild(peca_branca[2]);
-    await sleep(1000);
+    await sleep(sleepTime);
 
     casas[5].appendChild(peca_preta[0]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[6].appendChild(peca_preta[1]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[7].appendChild(peca_preta[2]);
-    await sleep(1000);
+    await sleep(sleepTime);
 
     casas[4].appendChild(peca_branca[3]);
-    await sleep(1000);
+    await sleep(sleepTime);
 
     casas[11].appendChild(peca_preta[3]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[15].appendChild(peca_preta[4]);
-    await sleep(1000);  
+    await sleep(sleepTime);  
     
     casas[12].appendChild(peca_branca[4]);
-    await sleep(1000);
+    await sleep(sleepTime);
 
     casas[9].appendChild(peca_preta[5]);
-    await sleep(1000);
+    await sleep(sleepTime);
 
     casas[13].appendChild(peca_branca[5]);
-    await sleep(1000);
+    await sleep(sleepTime);
     casas[14].appendChild(peca_branca[6]);
-    await sleep(1000);
+    await sleep(sleepTime);
 }

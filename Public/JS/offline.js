@@ -210,7 +210,7 @@ function gridEventListener(){
     for (const casa_ataque of casas){
         casa_ataque.addEventListener("click", (e) => {
             if (!casas_ativas.includes(casa_ataque.dataset.id)){
-                if ((jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))) && (movesBack == 0)){
+                if ((isConnected(Number(casa_ataque.dataset.id))) && (movesBack == 0) && (casas_ativas.length < 15)){
                     // Captar e registrar movimento
                     const peca = document.createElement("div");
                     
@@ -281,6 +281,20 @@ function goForward(){
 
 function isConnected(casa_num){
 
+    if (jogadas == 3){
+        if ((casas_ativas.length == 1) &&
+        (Number(casas_ativas[0]) == 
+        (15 - casa_num))){
+            alert("O primeiro lance não pode ser espelhado!");
+            return false;
+        }
+
+        return true;
+    }
+
+    if (casa_num > 15 || casa_num < 0)
+        return false;
+
     // Verifica se o lance é legal
     if ((casa_num != Number(casas_ativas[lances]) - 1) && (casa_num != Number(casas_ativas[lances]) + 1) &&
     (casa_num != Number(casas_ativas[lances]) - 4) && (casa_num != Number(casas_ativas[lances]) + 4)){
@@ -344,12 +358,16 @@ function isConnected(casa_num){
 
 function autoPass(casa_num){
 
-    // Se a casa estiver cercada, passar a vez
-    if((casas_ativas.includes((Number(casa_num) - 1).toString()) || Number(casa_num) - 1 < 0 || Number(casa_num) % 4 == 0)
-    && (casas_ativas.includes((Number(casa_num) + 1).toString()) || Number(casa_num) == 3 || (Number(casa_num) == 7) || Number(casa_num) == 11 || Number(casa_num) == 15)   
-    && (casas_ativas.includes((Number(casa_num) - 4).toString()) || Number(casa_num) - 4 < 0) 
-    && (casas_ativas.includes((Number(casa_num) + 4).toString()) || Number(casa_num) + 4 > 15)){
-        passarVez();
+    casa_num = Number(casa_num);
+
+    if (!isConnected(casa_num - 1) || casas_ativas.includes((casa_num - 1).toString())){
+        if (!isConnected(casa_num + 1) || casas_ativas.includes((casa_num + 1).toString())){
+            if (!isConnected(casa_num - 4) || casas_ativas.includes((casa_num - 4).toString())){
+                if (!isConnected(casa_num + 4) || casas_ativas.includes((casa_num + 4).toString())){
+                    passarVez();
+                }
+            }
+        }
     }
 
 }
@@ -443,12 +461,3 @@ board.addEventListener("contextmenu", (e) => {
     e.preventDefault();
 
 });
-
-/* 
-    if ((casas_ativas.length == 1) &&
-    (Number(casas_ativas[0]) == 
-    (15 - casa_num))){
-        alert("O primeiro lance não pode ser espelhado!");
-        return false;
-    }
-*/

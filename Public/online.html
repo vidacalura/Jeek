@@ -17,38 +17,14 @@
 
     <body class="bg-jeek-gray-600 text-white overflow-x-hidden">
 
-        <!-- Navbar -->
-        <nav>
-
-
-
-        </nav>
-
         <main class="pt-20">
 
-            <div class="px-16 flex justify-between">
-                <!-- Chat -->
-                <div class="chat bg-jeek-gray-400 w-80 h-[36rem] rounded-lg">
-                    <div class="msgs">
-
-                    </div>
-                    <div class="absolute top-[38rem] px-6 w-80 flex">
-                        <input type="text" class="chat-txtbox border-none outline-none bg-jeek-gray text-jeek-gray-700 w-full rounded-3xl pl-3 p-1" placeholder="Escreva algo aqui!">
-                        <button class="chat-btn bg-jeek-gray-500 rounded-full ml-2 px-4 text-center"> > </button>
-                    </div> 
-                </div>
+            <div class="px-16 flex pl-[36rem] justify-between">
 
                 <div>
                     <!-- Tabuleiro -->
-                    <section class="tabuleiro mt-12">
+                    <canvas id="tabuleiro-canvas" width="4" height="4" class="bg-jeek-gray-200 mt-12"> </canvas>
 
-
-
-                    </section>
-
-                    <!-- <div class="">
-                        <p class="p-turn"> Vez das  </p>
-                    </div> -->
                 </div>
 
                 <section class="">
@@ -72,6 +48,17 @@
                     </div>
 
                 </section>
+
+                <!-- Chat -->
+                <div class="chat md:absolute md:left-12 bg-jeek-gray-400 w-80 h-[36rem] rounded-lg">
+                    <div class="msgs">
+
+                    </div>
+                    <div class="absolute bottom-4 px-6 w-80 flex">
+                        <input type="text" class="chat-txtbox border-none outline-none bg-jeek-gray text-jeek-gray-700 w-full rounded-3xl pl-3 p-1" placeholder="Escreva algo aqui!">
+                        <button class="chat-btn bg-jeek-gray-500 rounded-full ml-2 px-4 text-center"> > </button>
+                    </div> 
+                </div>
             </div>
 
         </main>

@@ -490,8 +490,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: 0px;
 }
 
-.top-\[38rem\]{
-  top: 38rem;
+.bottom-4{
+  bottom: 1rem;
 }
 
 .z-10{
@@ -582,6 +582,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 256px;
 }
 
+.w-60{
+  width: 15rem;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
@@ -661,6 +665,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-black{
   --tw-bg-opacity: 1;
   background-color: rgb(48 48 48 / var(--tw-bg-opacity));
+}
+
+.bg-jeek-gray-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(171 171 171 / var(--tw-bg-opacity));
 }
 
 .bg-jeek-gray-400{
@@ -752,6 +761,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-2{
   padding-bottom: 0.5rem;
+}
+
+.pl-\[36rem\]{
+  padding-left: 36rem;
 }
 
 .pl-3{
@@ -861,9 +874,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   box-shadow: 9px 9px 5px rgba(0, 0, 0, 0.2);
 }
 
-.tabuleiro{
+.tabuleiro,
+#tabuleiro-canvas{
   box-shadow: 13px 13px 9px rgba(0, 0, 0, 0.25);
+  height: 16rem;
+  width: 16rem;
   border-radius: 20px;
+}
+
+@media (min-width: 768px){
+  .tabuleiro, #tabuleiro-canvas{
+    height: 28rem;
+    width: 28rem;
+  }
 }
 
 .coluna{
@@ -879,10 +902,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(58 58 58 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgb(171 171 171 / var(--tw-bg-opacity));
-}
-
-.casa:hover{
-  background-color: 7F7F7F;
 }
 
 @media (min-width: 768px){
@@ -1075,6 +1094,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 @media (min-width: 768px){
   .md\:absolute{
     position: absolute;
+  }
+
+  .md\:left-12{
+    left: 3rem;
   }
 
   .md\:inline-block{

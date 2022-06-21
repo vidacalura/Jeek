@@ -3,224 +3,142 @@ let socket = io.connect("http://localhost:5000");
 const mensagensField = document.querySelector(".msgs");
 const textbox = document.querySelector(".chat-txtbox");
 const enviarBtn = document.querySelector(".chat-btn ");
+const board = document.getElementById("tabuleiro-canvas");
+const context = board.getContext("2d");
+/* Jogo */
+const dados = {
+    player: {
+        'brancas': { playerId: null, pontos: 0, lances: 0 },
+        'pretas': { playerId: null, pontos: 0, lances: 0 }
+    },
+    tabuleiro: {
+        'casa0': { x: 0, y: 0, width: 112, height: 112 },
+        'casa1': { x: 1, y: 0, width: 112, height: 112 },
+        'casa2': { x: 2, y: 0, width: 112, height: 112 },
+        'casa3': { x: 3, y: 0, width: 112, height: 112 },
+        'casa4': { x: 0, y: 1, width: 112, height: 112 },
+        'casa5': { x: 1, y: 1, width: 112, height: 112 },
+        'casa6': { x: 2, y: 1, width: 112, height: 112 },
+        'casa7': { x: 3, y: 1, width: 112, height: 112 },
+        'casa8': { x: 0, y: 2, width: 112, height: 112 },
+        'casa9': { x: 1, y: 2, width: 112, height: 112 },
+        'casa10': { x: 2, y: 2, width: 112, height: 112 },
+        'casa11': { x: 3, y: 2, width: 112, height: 112 },
+        'casa12': { x: 0, y: 3, width: 112, height: 112 },
+        'casa13': { x: 1, y: 3, width: 112, height: 112 },
+        'casa14': { x: 2, y: 3, width: 112, height: 112 },
+        'casa15': { x: 3, y: 3, width: 112, height: 112 }
+    },
+    pecas_brancas: {
+        'peca_branca1': { x: null, y: null, design: "peca-branca" },
+        'peca_branca2': { x: null, y: null, design: "peca-branca" },
+        'peca_branca3': { x: null, y: null, design: "peca-branca" },
+        'peca_branca4': { x: null, y: null, design: "peca-branca" },
+        'peca_branca5': { x: null, y: null, design: "peca-branca" },
+        'peca_branca6': { x: null, y: null, design: "peca-branca" },
+        'peca_branca7': { x: null, y: null, design: "peca-branca" },
+        'peca_branca8': { x: null, y: null, design: "peca-branca" }
+    },
+    pecas_pretas: {
+        'peca_preta1': { x: null, y: null, design: "peca-preta" },
+        'peca_preta2': { x: null, y: null, design: "peca-preta" },
+        'peca_preta3': { x: null, y: null, design: "peca-preta" },
+        'peca_preta4': { x: null, y: null, design: "peca-preta" },
+        'peca_preta5': { x: null, y: null, design: "peca-preta" },
+        'peca_preta6': { x: null, y: null, design: "peca-preta" },
+        'peca_preta7': { x: null, y: null, design: "peca-preta" },
+        'peca_preta8': { x: null, y: null, design: "peca-preta" }
+    }
+}
 
-let player = "white";
-let turn;
-let jogadas = 3;
-let tempo_w_p = document.querySelector(".tempo-white");
-let tempo_b_p = document.querySelector(".tempo-black");
-let tempo = 120;
-let tempo_w = tempo;
-let tempo_b = tempo;
-const board = document.querySelector(".tabuleiro");
-let casas = [];
-let casas_ativas = [];
-let lances = -1;
-const passarBtn = document.querySelector(".botao-passar");
-const desistirBtn = document.querySelector(".botao-desistir");
-const p_turn = document.querySelector(".p-turn");
-tempo_w_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
-tempo_b_p.textContent = Math.floor(tempo / 60) + ":" + Math.floor(tempo % 60) + "0";
+renderGrid();
+board.addEventListener("click", (event) => {
+    let mouseX = event.clientX - board.offsetLeft;
+    let mouseY = event.clientY - board.offsetTop;
+
+    addPeca(mouseX, mouseY);
+});
+
+function renderGrid(){
+    
+    for (const casas of Object.values(dados.pecas_brancas)){
+        context.fillStyle = "white";
+        
+        if (casas.x != null && casas.y != null)
+            context.fillRect(casas.x, casas.y, 1, 1);
+    }
+
+    for (const casas of Object.values(dados.pecas_pretas)){
+        context.fillStyle = "#303030";
+
+        if (casas.x != null && casas.y != null)
+            context.fillRect(casas.x, casas.y, 1, 1);
+    }
+
+    requestAnimationFrame(renderGrid);
+}
+
+function addPeca(x, y){
+
+    /* if () -> verificar qual jogador */
+    /* if () -> isConnected */
+    let lance = Object.values(dados.pecas_brancas); 
 
 
-createGrid();
-gridEventListener();
+    if (x > 0 && x <= 112)
+        lance[dados.player.brancas.lances].x = 0;
+    else if (x > 112 && x <= 224)
+        lance[dados.player.brancas.lances].x = 1;
+    else if (x > 224 && x < 336)
+        lance[dados.player.brancas.lances].x = 2;
+    else 
+        lance[dados.player.brancas.lances].x = 3;
+
+    if (y > 0 && y <= 112)
+        lance[dados.player.brancas.lances].y = 0;
+    else if (y > 112 && y <= 224)
+        lance[dados.player.brancas.lances].y = 1;
+    else if (y > 224 && y < 336)
+        lance[dados.player.brancas.lances].y = 2;
+    else 
+        lance[dados.player.brancas.lances].y = 3;
+
+
+}
+
+/* Chat */
 enviarBtn.addEventListener("click", enviarMsg);
-desistirBtn.addEventListener("click", desistir);
 
 // Manda mensagem no chat via websocket.io
 function enviarMsg(){
 
     socket.emit("chat", textbox.value);
+    clearTextbox();
 
 }
 
-function desistir(){
+function clearTextbox(){
 
-    socket.emit("desistir", player);
-
-}
-
-// Relógio 
-
-function createGrid(){
-
-    let count = 0;
-
-    for (let i = 0; i < 4; i++){
-
-        const col = document.createElement("div");
-        col.classList.add("coluna");
-        board.appendChild(col);
-
-        for (let j = 0; j < 4; j++){
-            const casa = document.createElement("div");
-            casa.dataset.id = count;
-            casa.classList.add("casa");
-
-            if (count == 0){
-                casa.classList.add("casa1");
-            }
-            else if(count == 3){
-                casa.classList.add("casa2");
-            }
-            else if(count == 12){
-                casa.classList.add("casa3");
-            }
-            else if(count == 15){
-                casa.classList.add("casa4");
-            }
-
-            col.appendChild(casa);
-
-            casas.push(casa);
-
-            count++;
-        }
-    }
+    textbox.value = "";
 
 }
 
-function verifTurn(){
 
-    if (turn == "white"){
-        p_turn.textContent = "Vez das brancas";
-    }
-    else{
-        p_turn.textContent = "Vez das pretas";
-    }    
+/* Listeners do server */
 
-}
-
-function endgame(){
-
-    if (player == "white"){
-        alert("Brancas ganham!");
-    }
-    else{
-        alert("Pretas ganham!");
-    }
-
-    restart();
-
-}
-
-function restart(){
-
-    window.location.reload();
-
-}
-
-function gridEventListener(){
-
-    for (const casa_ataque of casas){
-        casa_ataque.addEventListener("click", () => {
-            if (!casas_ativas.includes(Number(casa_ataque.dataset.id))){
-                if (jogadas == 3 || isConnected(Number(casa_ataque.dataset.id))){
-                    sendMove(Number(casa_ataque.dataset.id));
-                }
-            }
-        });
-    }
-
-}
-
-function sendMove(num){
-
-    socket.emit("addPiece", num);
-
-}
-
-// Listeners do server
+// Adiciona a mensagem vinda do socket.io
 socket.on("chat", (data) => {
-    mensagensField.innerHTML += "<p>" + "[" + player + "] " + data + "</p>";
-});
-
-socket.on("addPiece", (data) => {
-
-    const peca = document.createElement("div");
-
-    if (player == "white")
-        peca.classList.add("peca-branca");
-    else
-        peca.classList.add("peca-preta");
-
-    casas[data].appendChild(peca);
-
-    casas_ativas.push(data);
-
-});
-
-socket.on("changeTurn", (data) => {
-
-});
-
-socket.on("passarJogada", (data) => {
-
-});
-
-socket.on("passarVez", (data) => {
-
-});
-
-socket.on("desistir", (data) => {
-
-    if (data == "white"){
-        alert("Brancas desistem. Pretas ganham!");
-    }
-    else {
-        alert("Pretas desistem. Brancas ganham!");
-    }
-
-    restart();
-
+    mensagensField.innerHTML += "<p>" + "[" /*+ player */ + "] " + data + "</p>";
 });
 
 
-function isConnected(casa_num){
+/* to do
 
-    // Verifica se o lance é legal
-    if ((casa_num != Number(casas_ativas[lances]) - 1) && (casa_num != Number(casas_ativas[lances]) + 1) &&
-    (casa_num != Number(casas_ativas[lances]) - 4) && (casa_num != Number(casas_ativas[lances]) + 4)){
-        if ((jogadas != 1) && ((casa_num != Number(casas_ativas[lances - 1]) - 1) && (casa_num != Number(casas_ativas[lances - 1]) + 1) &&
-        (casa_num != Number(casas_ativas[lances - 1]) - 4) && (casa_num != Number(casas_ativas[lances - 1]) + 4))){
-            return false;
-        }
-    }
+- Canvas -> divs
+- isConnected()
+- Botões
+- Tempo
+- Desacoplamento
+- Últimos 2 vídeos
 
-    if ((Number(casas_ativas[lances]) % 4 == 0) && (casa_num == Number(casas_ativas[lances]) - 1)){
-        return false;
-    }
-
-    if (((Number(casas_ativas[lances]) == 3) || (Number(casas_ativas[lances]) == 7) || 
-    (Number(casas_ativas[lances]) == 11)) && (casa_num == Number(casas_ativas[lances]) + 1)){
-        return false;
-    }    
-
-    // Permite apenas lances horizontais caso os primeiros 2 lances tenham sido horizontais
-    if ((jogadas == 1) && ((Number(casas_ativas[lances - 1]) == Number(casas_ativas[lances]) - 1) || 
-    (Number(casas_ativas[lances - 1]) == Number(casas_ativas[lances]) + 1))){
-        if ((casa_num != Number(casas_ativas[lances]) - 1) && (casa_num != Number(casas_ativas[lances]) + 1)){
-            if ((casa_num != Number(casas_ativas[lances - 1]) - 1) && (casa_num != Number(casas_ativas[lances - 1]) + 1)){
-                return false;
-            }
-
-        }
-    }
-
-    // Permite apenas lances verticais caso os primeiros 2 lances tenham sido verticais
-    if ((jogadas == 1) && ((Number(casas_ativas[lances - 1]) == Number(casas_ativas[lances]) - 4) || 
-    (Number(casas_ativas[lances - 1]) == Number(casas_ativas[lances]) + 4))){
-        if ((casa_num != Number(casas_ativas[lances]) - 4) && (casa_num != Number(casas_ativas[lances]) + 4)){
-            if ((casa_num != Number(casas_ativas[lances - 1]) - 4) && (casa_num != Number(casas_ativas[lances - 1]) + 4)){
-                return false;
-            }
-
-        }
-    }
-    
-    jogadas--;
-
-    return true;
-
-}
+*/

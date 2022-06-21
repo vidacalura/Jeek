@@ -20,10 +20,11 @@
     box-shadow: 9px 9px 5px rgba(0, 0, 0, 0.2);
 
 }
-.tabuleiro{
+.tabuleiro,
+#tabuleiro-canvas{
 
     box-shadow: 13px 13px 9px rgba(0, 0, 0, 0.25);
-    @apply rounded-[20px];
+    @apply rounded-[20px] w-64 h-64 md:w-[28rem] md:h-[28rem];
 
 }
 .coluna{
@@ -33,7 +34,7 @@
 }
 .casa{
 
-    @apply w-16 h-16 md:w-28 md:h-28 bg-jeek-gray-200 border border-jeek-gray-500 cursor-pointer hover:bg-jeek-gray-350;
+    @apply w-16 h-16 md:w-28 md:h-28 bg-jeek-gray-200 border border-jeek-gray-500 cursor-pointer;
 
 }
 .casa1{
