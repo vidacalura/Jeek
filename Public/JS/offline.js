@@ -114,14 +114,12 @@ async function clock(){
 
             if (turn == "white"){
 
-
                 tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
                 : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
 
                 if (tempo_w < tempo / 10){
                     relogio_w.classList.add("tempo-caindo");
                 }
-
 
             }
             else{
@@ -132,7 +130,6 @@ async function clock(){
                 if (tempo_b < tempo / 10){
                     relogio_b.classList.add("tempo-caindo");
                 }
-
 
             }
 

@@ -598,6 +598,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   justify-content: space-between;
 }
 
+.justify-around{
+  justify-content: space-around;
+}
+
 .gap-2{
   gap: 0.5rem;
 }
@@ -665,11 +669,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-black{
   --tw-bg-opacity: 1;
   background-color: rgb(48 48 48 / var(--tw-bg-opacity));
-}
-
-.bg-jeek-gray-200{
-  --tw-bg-opacity: 1;
-  background-color: rgb(171 171 171 / var(--tw-bg-opacity));
 }
 
 .bg-jeek-gray-400{
@@ -769,6 +768,46 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pl-3{
   padding-left: 0.75rem;
+}
+
+.pl-96{
+  padding-left: 24rem;
+}
+
+.pl-\[30\%\]{
+  padding-left: 30%;
+}
+
+.pl-\[50vh\]{
+  padding-left: 50vh;
+}
+
+.pl-\[50\%\]{
+  padding-left: 50%;
+}
+
+.pl-\[50vw\]{
+  padding-left: 50vw;
+}
+
+.pl-\[20vw\]{
+  padding-left: 20vw;
+}
+
+.pl-\[30vw\]{
+  padding-left: 30vw;
+}
+
+.pl-\[40vw\]{
+  padding-left: 40vw;
+}
+
+.pl-\[36vw\]{
+  padding-left: 36vw;
+}
+
+.pl-\[38vw\]{
+  padding-left: 38vw;
 }
 
 .text-left{
