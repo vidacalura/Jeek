@@ -48,6 +48,8 @@ const dados = {
     }
 }
 
+relogio();
+
 function isConnected(y, x){ 
 
     if ((x < 0 || x > 3) || (y < 0 || y > 3))
@@ -58,7 +60,7 @@ function isConnected(y, x){
 
     // if movesBack != 0 -> false
 
-    if (dados.player.brancas.lances + dados.player.pretas.lances >= 15)
+    if (dados.player.brancas.lances + dados.player.pretas.lances == 15)
         return false;
 
     // Verifica se o lance é legal
@@ -97,17 +99,55 @@ function checkTurn(){
         jogadas = 3;
     }
 
+    if (dados.player.brancas.lances + dados.player.pretas.lances == 15){
+        endGame();
+    }
+
 }
 
 async function relogio(){
 
+    let tempo = 100000, tempo_w = tempo, tempo_b = tempo;
 
+    setInterval(() => {
+        (vezBrancas == true ? tempo_w-- : tempo_b--);
+
+        if (tempo_w == 0){
+            endGame();
+        }
+        else if (tempo_b == 0){
+            endGame();
+        }
+
+    }, 1000);
+
+}
+
+function endGame(){
+
+    io.sockets.emit("endGame", null);
+
+    // Parar relógio
 
 }
 
 function restart(){
 
+    jogadas = 3;
+    vezBrancas = true;
 
+    for (const peca of Object.values(dados.pecas_brancas)){
+        peca.x = null;
+        peca.y = null;
+    }
+
+    for (const peca of Object.values(dados.pecas_pretas)){
+        peca.x = null;
+        peca.y = null;
+    }
+
+    dados.player.brancas.lances = 0;
+    dados.player.pretas.lances = 0;
 
 }
 
@@ -135,7 +175,7 @@ io.on("connection", (socket) => {
     /* Jogo */
     socket.on("addPecaBackend", (data) => {
         if (isConnected(data.x, data.y)){
-            let quant_lances = -1;
+            let quant_lances = 0;
 
             if (socket.id == dados.player.brancas.playerId && vezBrancas == true){
                 quant_lances = dados.player.brancas.lances;
@@ -159,7 +199,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("desistir", (data) => {
-        
+        endGame();
     });
 
     socket.on("passarVez", (data) => {
@@ -169,7 +209,7 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("endgame", (data) => {
+    socket.on("restart", (data) => {
         restart();
     });
 
@@ -177,12 +217,15 @@ io.on("connection", (socket) => {
 
 /* to do
 
+- game room (com captcha)
 - Tela de espera
 - isConnected()
 - autoPass()
 - Voltar lances
 - Botões
 - Tempo
-- endgame()
+- restart()
+- contador de espectadores
+- verificar se jogador se desconectou
 
 */

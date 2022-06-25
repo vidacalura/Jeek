@@ -8,6 +8,8 @@ const desistirBtn = document.querySelector(".botao-desistir");
 desistirBtn.addEventListener("click", desistir);
 const passarBtn = document.querySelector(".botao-passar");
 passarBtn.addEventListener("click", passarVez);
+const revancheBtn = document.querySelector(".botao-restart");
+revancheBtn.addEventListener("click", pedirRevanche);
 const board = document.querySelector(".tabuleiro");
 let tabuleiro = [];
 
@@ -102,15 +104,23 @@ function passarVez(){
 
 }
 
+function pedirRevanche(){
+
+
+
+}
+
 async function relogio(){
 
 
 
 }
 
-function endgame(){
+function endGame(){
 
-    
+    desistirBtn.classList.add("hidden");
+    passarBtn.classList.add("hidden");
+    revancheBtn.classList.remove("hidden");
 
 }
 
@@ -120,7 +130,7 @@ function restart(){
 
 }
 
-
+/* Chat */
 function enviarMsg(){
 
     socket.emit("chat", textbox.value);
@@ -136,12 +146,14 @@ function clearTextbox(){
 
 
 /* Listeners do server */
-
-// Adiciona a mensagem vinda do socket.io
 socket.on("chat", (data) => {
     mensagensField.innerHTML += "<p>" + "[" /*+ player */ + "] " + data + "</p>";
 });
 
 socket.on("addPecaBackend", (data) => {
     addPeca(data.y, data.x, data.vezBrancas);
+});
+
+socket.on("endGame", (data) => {
+    endGame();
 });
