@@ -11,48 +11,6 @@ passarBtn.addEventListener("click", passarVez);
 const board = document.querySelector(".tabuleiro");
 let tabuleiro = [];
 
-let jogadas = 3;
-let lances_brancas = 0;
-let lances_pretas = 0;
-let placar_brancas = 0;
-let placar_pretas = 0;
-
-/* Jogo */
-const dados = {
-    player: {
-        'brancas': { playerId: null, pontos: 0, lances: 0 },
-        'pretas': { playerId: null, pontos: 0, lances: 0 }
-    },
-    pecas_brancas: {
-        'peca_branca1': { x: null, y: null },
-        'peca_branca2': { x: null, y: null },
-        'peca_branca3': { x: null, y: null },
-        'peca_branca4': { x: null, y: null },
-        'peca_branca5': { x: null, y: null },
-        'peca_branca6': { x: null, y: null },
-        'peca_branca7': { x: null, y: null },
-        'peca_branca8': { x: null, y: null },
-        'peca_branca9': { x: null, y: null },
-        'peca_branca10': { x: null, y: null },
-        'peca_branca11': { x: null, y: null },
-        'peca_branca12': { x: null, y: null }
-    },
-    pecas_pretas: {
-        'peca_preta1': { x: null, y: null },
-        'peca_preta2': { x: null, y: null },
-        'peca_preta3': { x: null, y: null },
-        'peca_preta4': { x: null, y: null },
-        'peca_preta5': { x: null, y: null },
-        'peca_preta6': { x: null, y: null },
-        'peca_preta7': { x: null, y: null },
-        'peca_preta8': { x: null, y: null },
-        'peca_preta9': { x: null, y: null },
-        'peca_preta10': { x: null, y: null },
-        'peca_preta11': { x: null, y: null },
-        'peca_preta12': { x: null, y: null }
-    }
-}
-
 createGrid();
 gridEventListener();
 
@@ -107,11 +65,7 @@ function gridEventListener(){
             const x = j;
 
             tabuleiro[y][x].addEventListener("click", () => {
-                if (lances_brancas + lances_pretas == 15){
-                    endgame();
-                }
-                /* if () -> verificar qual jogador */
-                if (isConnected(y, x)){
+                if (!tabuleiro[y][x].hasChildNodes()){
                     socket.emit("addPecaBackend", { y: y, x: x });
                 }
             });
@@ -120,52 +74,19 @@ function gridEventListener(){
 
 }
 
-function addPeca(y, x){
+function addPeca(y, x, vezBrancas){
 
-    // Registro do lance - JS
-    let lance = Object.values(dados.pecas_brancas); 
-
-    lance[lances_brancas].x = x;
-    lance[lances_brancas].y = y;
-
-    // Regustro do lance - Visual
+    // Registro do lance - Visual
     const peca = document.createElement("div");
                     
-    // if () -> cor
+    if (vezBrancas == true)
         peca.classList.add("peca-branca");
+    else
+        peca.classList.add("peca-preta");
+
 
     tabuleiro[y][x].appendChild(peca);
 
-
-}
-
-function isConnected(y, x){
-
-    // verifica se já tem peças nessa casa
-    if (tabuleiro[y][x].hasChildNodes())
-        return false;
-
-    if (jogadas == 3)
-        return true;
-
-    // if movesBack != 0 -> false
-
-    if ((x < 0 || x > 3) || (y < 0 || y > 3))
-        return false;
-
-    /*if (lances_brancas + lances_pretas >= 15)
-        return false;*/
-
-    // Verifica se o lance é legal
-
-    // Permite apenas lances horizontais caso os primeiros 2 lances tenham sido horizontais
-
-    // Permite apenas lances verticais caso os primeiros 2 lances tenham sido verticais
-
-    // Verfica se os lances são simétricos
-
-
-    return true;
 
 }
 
@@ -177,7 +98,7 @@ function desistir(){
 
 function passarVez(){
 
-
+    socket.emit("passarVez", null);
 
 }
 
@@ -222,18 +143,5 @@ socket.on("chat", (data) => {
 });
 
 socket.on("addPecaBackend", (data) => {
-    addPeca(data.y, data.x);
-    // lances_brancas++;
+    addPeca(data.y, data.x, data.vezBrancas);
 });
-
-
-/* to do
-
-- isConnected()
-- autoPass()
-- Voltar lances
-- Botões
-- Tempo
-- Últimos 2 vídeos
-
-*/
