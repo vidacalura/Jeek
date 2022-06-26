@@ -50,26 +50,53 @@ const dados = {
 
 relogio();
 
-function isConnected(y, x){ 
+function isConnected(x, y){ 
+
+    const lances_brancas = dados.player.brancas.lances;
+    const lances_pretas = dados.player.pretas.lances;
+    const total_lances = lances_brancas + lances_pretas;
+    let lances_player, lance;
+
+    if (total_lances == 15)
+        return false;
 
     if ((x < 0 || x > 3) || (y < 0 || y > 3))
         return false;
 
-    if (jogadas == 3)
+    if (jogadas == 3){
+        // Verificação de lance simétrico (1)
+
         return true;
+    }
 
     // if movesBack != 0 -> false
 
-    if (dados.player.brancas.lances + dados.player.pretas.lances == 15)
-        return false;
+    if (vezBrancas){
+        lance = Object.values(dados.pecas_brancas); 
+        lances_player = lances_brancas;
+    }
+    else {
+        lance = Object.values(dados.pecas_pretas); 
+        lances_player = lances_pretas;
+    }
 
     // Verifica se o lance é legal
+    if ((y != Number(lance[lances_player - 1].y) + 1) && (y != Number(lance[lances_player - 1].y) - 1) &&
+    (x != Number(lance[lances_player - 1].x) + 1) && (x != Number(lance[lances_player - 1].x) - 1)){
+            return false;  
+    } 
+
+    if ((y == Number(lance[lances_player - 1].y) + 1) || (y == Number(lance[lances_player - 1].y) - 1)){
+        if ((x == Number(lance[lances_player - 1].x) + 1) || (x == Number(lance[lances_player - 1].x) - 1)){
+            return false;  
+        }
+    } 
 
     // Permite apenas lances horizontais caso os primeiros 2 lances tenham sido horizontais
 
     // Permite apenas lances verticais caso os primeiros 2 lances tenham sido verticais
 
-    // Verfica se os lances são simétricos
+    // Verfica se os lances são simétricos (2 e 3)
 
 
     return true;
