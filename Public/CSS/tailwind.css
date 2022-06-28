@@ -20,6 +20,34 @@
     box-shadow: 9px 9px 5px rgba(0, 0, 0, 0.2);
 
 }
+.msgs::-webkit-scrollbar {
+
+    width: 6px; 
+
+}
+.msgs::-webkit-scrollbar-thumb{
+
+    height: 10%;
+    border-radius: 20px;
+    @apply bg-jeek-gray-100 border border-jeek-gray-100 opacity-50;
+
+}
+.msg{
+
+    @apply mx-8 mb-2 p-4 bg-jeek-gray-300 rounded flex shadow-md;
+
+}
+.msg-p{
+
+    @apply px-4 pt-1;
+
+}
+.msg-jogo{
+
+    @apply italic text-center px-6 my-3 text-jeek-gray-200;
+
+}
+
 .tabuleiro,
 #tabuleiro-canvas{
 
@@ -65,13 +93,22 @@
     box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
 
 }
+.peca-branca-chat,
+.peca-preta-chat{
 
-.peca-branca{
+    @apply w-8 h-8 rounded-full pr-8;
+    box-shadow: -2px -2px 8px #C9C9C9, 6px 6px 14px rgba(0, 0, 0, 0.4);
+
+}
+
+.peca-branca,
+.peca-branca-chat{
 
     @apply bg-white;
 
 }
-.peca-preta{
+.peca-preta,
+.peca-preta-chat{
 
     @apply bg-black;
 

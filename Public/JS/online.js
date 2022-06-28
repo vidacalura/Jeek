@@ -1,4 +1,4 @@
-let socket = io.connect("http://localhost:5000");
+let socket = io();
 
 const mensagensField = document.querySelector(".msgs");
 const textbox = document.querySelector(".chat-txtbox");
@@ -10,11 +10,20 @@ const passarBtn = document.querySelector(".botao-passar");
 passarBtn.addEventListener("click", passarVez);
 const revancheBtn = document.querySelector(".botao-restart");
 revancheBtn.addEventListener("click", pedirRevanche);
-const board = document.querySelector(".tabuleiro");
+const endgame_p = document.querySelector(".endgame-p");
+const tempo_w_p = document.querySelector(".tempo-white");
+const tempo_b_p = document.querySelector(".tempo-black");
+const specsDiv = document.querySelector(".specs-div");
+const specsIcon = document.querySelector(".specs-icon");
+const telaCarregamento = document.querySelector(".tela-carregamento");
+const main = document.querySelector("main");
+let board = document.querySelector(".tabuleiro");
+const tabuleiroDiv = document.querySelector(".tabuleiro-div");
 let tabuleiro = [];
 
 createGrid();
 gridEventListener();
+socket.emit("createPlayer", socket.id);
 
 
 function createGrid(){
@@ -94,7 +103,7 @@ function addPeca(y, x, vezBrancas){
 
 function desistir(){
 
-
+    socket.emit("desistir", null);
 
 }
 
@@ -106,35 +115,122 @@ function passarVez(){
 
 function pedirRevanche(){
 
-
-
-}
-
-async function relogio(){
-
-
+    // Se o pedido for aceito
+        socket.emit("restart", null);
+        restart();
 
 }
 
-function endGame(){
+function relogio(tempo_w, tempo_b){
+
+    tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
+    : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
+
+    tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
+    : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+
+}
+
+function specs(quant_specs){
+
+    if (specsDiv.className.includes("hidden"))
+        specsDiv.classList.remove("hidden");
+
+    specsIcon.textContent = " " + quant_specs;
+
+}
+
+function startGame(con){
+
+    if (con >= 2){
+        telaCarregamento.classList.add("hidden");
+        main.classList.remove("hidden");
+    }
+
+}
+
+function endGame(data){
 
     desistirBtn.classList.add("hidden");
     passarBtn.classList.add("hidden");
     revancheBtn.classList.remove("hidden");
 
+    // Mostrar placar
+    endgame_p.textContent = data.brancasPontos + " - " + data.pretasPontos + "   ";
+
+    // Mostrar quem foi vitorioso
+    endgame_p.textContent += "Vitória das " + (data.brancasGanham == true ? "brancas" : "pretas") + "!";
+
+}
+
+function mensagemJogo(msg){
+
+    const mensagem_jogo = document.createElement("p");
+
+    mensagem_jogo.textContent = msg;
+    mensagem_jogo.className = "msg-jogo";
+
+    mensagensField.appendChild(mensagem_jogo);
+
 }
 
 function restart(){
 
+    tabuleiro = [];
+    board.remove();
+    board = document.createElement("section");
+    board.classList = "tabuleiro mt-12";
+    tabuleiroDiv.appendChild(board);
 
+    createGrid();
+    gridEventListener();
+
+    desistirBtn.classList.remove("hidden");
+    passarBtn.classList.remove("hidden");
+    revancheBtn.classList.add("hidden");
+
+    endgame_p.textContent = " ";
 
 }
 
 /* Chat */
+textbox.addEventListener("keyup", (event) => {
+    event.preventDefault();
+
+    if (event.key == "Enter"){
+        enviarMsg();
+    }
+});
+
 function enviarMsg(){
 
-    socket.emit("chat", textbox.value);
-    clearTextbox();
+    if (textbox.value[0] != " " && textbox.value != ""){
+        socket.emit("chat", textbox.value);
+        clearTextbox();
+    }
+
+}
+
+function regMsg(data){
+
+    if (data.chatPlayer != null){
+
+        const mensagem = document.createElement("div");
+        mensagem.classList.add("msg");
+
+        const peca = document.createElement("div");
+        peca.className = (data.chatPlayer == "brancas" ? "peca-branca-chat" : "peca-preta-chat");
+
+        const mensagem_p = document.createElement("p");
+        mensagem_p.classList.add("msg-p");
+
+        mensagem_p.textContent = data.data;
+
+        mensagem.appendChild(peca);
+        mensagem.appendChild(mensagem_p);
+        mensagensField.appendChild(mensagem);
+        
+    }
 
 }
 
@@ -147,7 +243,7 @@ function clearTextbox(){
 
 /* Listeners do server */
 socket.on("chat", (data) => {
-    mensagensField.innerHTML += "<p>" + "[" /*+ player */ + "] " + data + "</p>";
+    regMsg(data);
 });
 
 socket.on("addPecaBackend", (data) => {
@@ -155,5 +251,26 @@ socket.on("addPecaBackend", (data) => {
 });
 
 socket.on("endGame", (data) => {
-    endGame();
+    endGame(data);
+});
+
+socket.on("restart", (data) => {
+    restart();
+});
+
+socket.on("desconexao", (data) => {
+    mensagemJogo(data + " saíram do jogo, encerrando partida...");
+});
+
+socket.on("updateRelogio", (data) => {
+    relogio(data.tempo_w, data.tempo_b);
+});
+
+socket.on("updateSpecs", (data) => {
+    specs(data);
+});
+
+/* Tela de espera */
+socket.on("updateConnections", (con) => {
+    startGame(con);
 });

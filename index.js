@@ -1,17 +1,18 @@
 let express = require("express");
-let socket = require("socket.io");
+const socket = require("socket.io");
 
 let app = express();
-let server = app.listen(5000);
+const port = process.env.PORT || 5000;
+let server = app.listen(port);
 
 
 app.use(express.static("Public"));
-
 
 let jogadas = 3;
 let specs = 0;
 let connections = 0;
 let vezBrancas = true;
+let tempo = 300, tempo_w = tempo, tempo_b = tempo;
 
 const dados = {
     player: {
@@ -81,22 +82,56 @@ function isConnected(x, y){
     }
 
     // Verifica se o lance é legal
-    if ((y != Number(lance[lances_player - 1].y) + 1) && (y != Number(lance[lances_player - 1].y) - 1) &&
-    (x != Number(lance[lances_player - 1].x) + 1) && (x != Number(lance[lances_player - 1].x) - 1)){
-            return false;  
-    } 
+    if (jogadas == 2){
+        if ((y != Number(lance[lances_player - 1].y) + 1) && (y != Number(lance[lances_player - 1].y) - 1) &&
+        (x != Number(lance[lances_player - 1].x) + 1) && (x != Number(lance[lances_player - 1].x) - 1)){
+                return false;  
+        } 
 
-    if ((y == Number(lance[lances_player - 1].y) + 1) || (y == Number(lance[lances_player - 1].y) - 1)){
-        if ((x == Number(lance[lances_player - 1].x) + 1) || (x == Number(lance[lances_player - 1].x) - 1)){
-            return false;  
+        if ((y == Number(lance[lances_player - 1].y) + 1) || (y == Number(lance[lances_player - 1].y) - 1)){
+            if ((x == Number(lance[lances_player - 1].x) + 1) || (x == Number(lance[lances_player - 1].x) - 1)){
+                return false;  
+            }
         }
     } 
 
-    // Permite apenas lances horizontais caso os primeiros 2 lances tenham sido horizontais
+    if (jogadas == 1){
+        // Permite apenas lances horizontais caso os primeiros 2 lances tenham sido horizontais
+        if (lance[lances_player - 1].y == lance[lances_player - 2].y){
+            if (y != lance[lances_player - 1].y){
+                return false
+            }
+            if ((x != Number(lance[lances_player - 1].x) + 1) && (x != Number(lance[lances_player - 1].x) - 1)){
+                if ((x != Number(lance[lances_player - 2].x) + 1) && (x != Number(lance[lances_player - 2].x) - 1)){
+                    return false;
+                }
+            }
+        }
 
-    // Permite apenas lances verticais caso os primeiros 2 lances tenham sido verticais
+        // Permite apenas lances verticais caso os primeiros 2 lances tenham sido verticais
+        if (lance[lances_player - 1].x == lance[lances_player - 2].x){
+            if (x != lance[lances_player - 1].x){
+                return false
+            }
+            if ((y != Number(lance[lances_player - 1].y) + 1) && (y != Number(lance[lances_player - 1].y) - 1)){
+                if ((y != Number(lance[lances_player - 2].y) + 1) && (y != Number(lance[lances_player - 2].y) - 1)){
+                    return false;
+                }
+            }
+        }
+    }
 
     // Verfica se os lances são simétricos (2 e 3)
+    if (!vezBrancas){
+        if (lances_brancas == lances_pretas + 1){
+            if (lances_brancas == 3){
+                // soma 6
+            }
+            else if (lances_brancas == 2){
+                // soma 6
+            }
+        }
+    }
 
 
     return true;
@@ -127,34 +162,70 @@ function checkTurn(){
     }
 
     if (dados.player.brancas.lances + dados.player.pretas.lances == 15){
-        endGame();
+        endGame(vezBrancas);
     }
 
 }
 
 async function relogio(){
 
-    let tempo = 100000, tempo_w = tempo, tempo_b = tempo;
-
     setInterval(() => {
-        (vezBrancas == true ? tempo_w-- : tempo_b--);
+        if (connections >= 2){
+            (vezBrancas == true ? tempo_w-- : tempo_b--);
+            io.sockets.emit("updateRelogio", { tempo_w, tempo_b });
 
-        if (tempo_w == 0){
-            endGame();
+            if (tempo_w == 0){
+                endGame(false);
+            }
+            else if (tempo_b == 0){
+                endGame(true);
+            }
         }
-        else if (tempo_b == 0){
-            endGame();
-        }
-
     }, 1000);
 
 }
 
-function endGame(){
+function endGame(brancasGanham){
 
-    io.sockets.emit("endGame", null);
+    if (brancasGanham){
+        dados.player.brancas.pontos++;
+    }
+    else {
+        dados.player.pretas.pontos++;
+    }
+
+    const brancasPontos = dados.player.brancas.pontos;
+    const pretasPontos = dados.player.pretas.pontos;
+
+    io.sockets.emit("endGame", { brancasPontos, pretasPontos, brancasGanham });
 
     // Parar relógio
+
+}
+
+function passarVez(id){
+
+    if (jogadas != 3){
+        if (id == dados.player.brancas.playerId){
+            vezBrancas = false;
+            jogadas = 3;
+        }
+        else if (id == dados.player.pretas.playerId){
+            vezBrancas = true;
+            jogadas = 3;
+        }
+    }
+
+}
+
+function desistir(id){
+
+    if (id == dados.player.brancas.playerId){
+        endGame(false);
+    }
+    else if (id == dados.player.pretas.playerId){
+        endGame(true);
+    }
 
 }
 
@@ -176,17 +247,23 @@ function restart(){
     dados.player.brancas.lances = 0;
     dados.player.pretas.lances = 0;
 
+    tempo_w = tempo;
+    tempo_b = tempo;
+
 }
+
 
 let io = socket(server);
 io.on("connection", (socket) => {
-    console.log("Conexão do socket realizada com sucesso");
     connections++;
+    io.sockets.emit("updateConnections", connections);
 
-    if (connections > 2)
+    if (connections > 2){
         specs++;
+        if (specs > 0)
+            io.sockets.emit("updateSpecs", specs);
+    }
 
-    
     if (dados.player.brancas.playerId == null){
         dados.player.brancas.playerId = socket.id;
     }
@@ -196,7 +273,16 @@ io.on("connection", (socket) => {
 
     /* Chat */
     socket.on("chat", (data) => {
-        io.sockets.emit("chat", data);
+        let chatPlayer = null;
+
+        if (socket.id == dados.player.brancas.playerId){
+            chatPlayer = "brancas";
+        }
+        else if (socket.id == dados.player.pretas.playerId){
+            chatPlayer = "pretas";
+        }
+
+        io.sockets.emit("chat", { data, chatPlayer });
     });
 
     /* Jogo */
@@ -226,33 +312,57 @@ io.on("connection", (socket) => {
     });
 
     socket.on("desistir", (data) => {
-        endGame();
+        desistir(socket.id);
     });
 
     socket.on("passarVez", (data) => {
-        if (jogadas != 3){
-            vezBrancas = (vezBrancas == true ? false : true);
-            jogadas = 3;
-        }
+        passarVez(socket.id);
     });
 
     socket.on("restart", (data) => {
         restart();
+        io.sockets.emit("restart", data);
     });
 
+    socket.on("disconnect", () => {
+        connections--;
+        io.sockets.emit("updateConnections", connections);
+
+        if (socket.id == dados.player.brancas.playerId){
+            endGame(false);
+            io.sockets.emit("desconexao", "brancas");
+        }
+        else if (socket.id == dados.player.pretas.playerId){
+            endGame(true);
+            io.sockets.emit("desconexao", "pretas");
+        }
+        else{
+            specs--;
+            io.sockets.emit("updateSpecs", specs);
+        }
+
+        if (connections == 0 || connections == specs){
+            dados.player.brancas.pontos = 0;
+            dados.player.pretas.pontos = 0;
+            dados.player.brancas.playerId = null;
+            dados.player.pretas.playerId = null;
+
+            restart();
+        }
+
+    });
 });
 
 /* to do
 
+- adicionar sons e navbar
+- isGameOver
 - game room (com captcha)
-- Tela de espera
+- Menu
+- revanche
 - isConnected()
 - autoPass()
 - Voltar lances
-- Botões
-- Tempo
-- restart()
-- contador de espectadores
-- verificar se jogador se desconectou
+- Mudar lados após partida
 
 */

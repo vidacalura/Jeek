@@ -15,15 +15,23 @@
     </head>
 
 
-    <body class="bg-jeek-gray-600 text-white overflow-x-hidden">
+    <body class="bg-jeek-gray-600 text-white overflow-x-hidden md:overflow-y-hidden">
 
-        <main class="pt-20">
+        <div class="tela-carregamento text-center absolute w-screen h-screen">
+            <div class="w-full flex justify-center pt-60">
+                <img src="imgs/loading" alt="" class="w-8 h-8">
+            </div>
+
+            <p class="font-bold pt-2"> Procurando oponente... </p>
+        </div>
+
+        <main class="pt-20 hidden">
 
             <div class="px-16 flex pl-[38vw] justify-between">
 
-                <div>
+                <div class="tabuleiro-div">
                     <!-- Tabuleiro -->
-                    <div class="tabuleiro">
+                    <div class="tabuleiro mt-12">
                         
                     </div>
 
@@ -58,15 +66,23 @@
 
                 </section>
 
-                <!-- Chat -->
-                <div class="chat md:absolute md:left-12 bg-jeek-gray-400 w-80 h-[36rem] rounded-lg">
-                    <div class="msgs">
 
+                <div class="md:absolute md:top-8 md:left-12">
+                    <!-- Espectadores -->
+                    <div class="specs-div hidden">
+                        <i class="specs-icon fa-solid fa-eye"> </i>
                     </div>
-                    <div class="absolute bottom-4 px-6 w-80 flex">
-                        <input type="text" class="chat-txtbox border-none outline-none bg-jeek-gray text-jeek-gray-700 w-full rounded-3xl pl-3 p-1" placeholder="Escreva algo aqui!">
-                        <button class="chat-btn bg-jeek-gray-500 rounded-full ml-2 px-4 text-center"> > </button>
-                    </div> 
+
+                    <!-- Chat -->
+                    <div class="chat bg-jeek-gray-400 w-80 h-[36rem] rounded-lg">
+                        <div class="msgs pt-8 h-[32rem] overflow-y-scroll">
+                            
+                        </div>
+                        <div class="absolute bottom-4 px-6 w-80 flex">
+                            <input type="text" class="chat-txtbox border-none outline-none bg-jeek-gray text-jeek-gray-700 w-full rounded-3xl pl-3 p-1" placeholder="Escreva algo aqui!">
+                            <button class="chat-btn bg-jeek-gray-500 rounded-full ml-2 px-4 text-center"> > </button>
+                        </div> 
+                    </div>
                 </div>
             </div>
 
