@@ -494,8 +494,37 @@ Ensure the default browser behavior of the `hidden` attribute.
   bottom: 1rem;
 }
 
+.top-64{
+  top: 16rem;
+}
+
+.top-80{
+  top: 20rem;
+}
+
+.top-96{
+  top: 24rem;
+}
+
+.left-12{
+  left: 3rem;
+}
+
 .z-10{
   z-index: 10;
+}
+
+.z-20{
+  z-index: 20;
+}
+
+.m-2{
+  margin: 0.5rem;
+}
+
+.mx-4{
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .mt-12{
@@ -522,12 +551,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 2rem;
 }
 
-.ml-2{
-  margin-left: 0.5rem;
+.mt-10{
+  margin-top: 2.5rem;
 }
 
-.mb-8{
-  margin-bottom: 2rem;
+.ml-2{
+  margin-left: 0.5rem;
 }
 
 .flex{
@@ -554,12 +583,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 2rem;
 }
 
-.h-\[36rem\]{
-  height: 36rem;
-}
-
 .h-\[32rem\]{
   height: 32rem;
+}
+
+.h-\[28rem\]{
+  height: 28rem;
 }
 
 .max-h-0{
@@ -606,6 +635,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 15rem;
 }
 
+.w-44{
+  width: 11rem;
+}
+
+.w-\[100\%\]{
+  width: 100%;
+}
+
+.w-64{
+  width: 16rem;
+}
+
 .cursor-text{
   cursor: text;
 }
@@ -628,6 +669,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .gap-4{
   gap: 1rem;
+}
+
+.gap-8{
+  gap: 2rem;
 }
 
 .overflow-hidden{
@@ -772,6 +817,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 1.5rem;
 }
 
+.pl-2{
+  padding-left: 0.5rem;
+}
+
 .pt-10{
   padding-top: 2.5rem;
 }
@@ -780,8 +829,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 2rem;
 }
 
-.pt-20{
-  padding-top: 5rem;
+.pl-1{
+  padding-left: 0.25rem;
 }
 
 .pt-12{
@@ -800,8 +849,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 15rem;
 }
 
-.pl-\[38vw\]{
-  padding-left: 38vw;
+.pb-4{
+  padding-bottom: 1rem;
 }
 
 .pl-3{
@@ -859,9 +908,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(199 199 199 / var(--tw-text-opacity));
 }
 
+.text-jeek-gray-200{
+  --tw-text-opacity: 1;
+  color: rgb(171 171 171 / var(--tw-text-opacity));
+}
+
 .text-jeek-gray-600{
   --tw-text-opacity: 1;
   color: rgb(44 44 44 / var(--tw-text-opacity));
+}
+
+.text-jeek-gray-300{
+  --tw-text-opacity: 1;
+  color: rgb(169 169 169 / var(--tw-text-opacity));
 }
 
 .text-jeek-gray-700{
@@ -1096,6 +1155,27 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }
 
+.botao-revanche{
+  width: 3.5rem;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(95 95 95 / var(--tw-bg-opacity));
+  padding: 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.botao-aceitar-revanche{
+  --tw-bg-opacity: 1;
+  background-color: rgb(57 235 0 / var(--tw-bg-opacity));
+}
+
+.botao-recusar-revanche{
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 73 73 / var(--tw-bg-opacity));
+}
+
 .botao-passar{
   --tw-bg-opacity: 1;
   background-color: rgb(146 180 236 / var(--tw-bg-opacity));
@@ -1163,6 +1243,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(95 95 95 / var(--tw-bg-opacity));
 }
 
+.hover\:text-white:hover{
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 @media (min-width: 640px){
   .sm\:gap-6{
     gap: 1.5rem;
@@ -1183,12 +1268,28 @@ Ensure the default browser behavior of the `hidden` attribute.
     position: absolute;
   }
 
-  .md\:top-8{
-    top: 2rem;
+  .md\:bottom-0{
+    bottom: 0px;
+  }
+
+  .md\:top-20{
+    top: 5rem;
   }
 
   .md\:left-12{
     left: 3rem;
+  }
+
+  .md\:bottom-4{
+    bottom: 1rem;
+  }
+
+  .md\:top-\[36\.7rem\]{
+    top: 36.7rem;
+  }
+
+  .md\:block{
+    display: block;
   }
 
   .md\:inline-block{
@@ -1207,6 +1308,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     width: 28rem;
   }
 
+  .md\:w-40{
+    width: 10rem;
+  }
+
   .md\:overflow-y-hidden{
     overflow-y: hidden;
   }
@@ -1223,6 +1328,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:pt-20{
     padding-top: 5rem;
+  }
+
+  .md\:pl-\[38vw\]{
+    padding-left: 38vw;
   }
 }
 

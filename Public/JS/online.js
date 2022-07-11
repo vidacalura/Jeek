@@ -1,5 +1,14 @@
 let socket = io();
 
+let startSound = new Audio("../imgs/startSound.mkv");
+startSound.crossOrigin = "anonymous";
+let endSound = new Audio("../imgs/lichessCheckmate.mkv");
+endSound.crossOrigin = "anonymous";
+
+let connections = 0;
+let movesBack = 0;
+let casasAtivas = [];
+let gameRoom = null;
 const mensagensField = document.querySelector(".msgs");
 const textbox = document.querySelector(".chat-txtbox");
 const enviarBtn = document.querySelector(".chat-btn ");
@@ -10,11 +19,22 @@ const passarBtn = document.querySelector(".botao-passar");
 passarBtn.addEventListener("click", passarVez);
 const revancheBtn = document.querySelector(".botao-restart");
 revancheBtn.addEventListener("click", pedirRevanche);
+const revancheAceitarBtn = document.querySelector(".botao-aceitar-revanche");
+revancheAceitarBtn.addEventListener("click", aceitarRevanche);
+const revancheRecusarBtn = document.querySelector(".botao-recusar-revanche");
+revancheRecusarBtn.addEventListener("click", recusarRevanche);
+let loadingImgContainer = null;
+const backBtn = document.querySelector(".move-back");
+backBtn.addEventListener("click", moveBack);
+const forwardBtn = document.querySelector(".move-forward");
+forwardBtn.addEventListener("click", moveForward);
+const revancheIcon = document.querySelector(".revanche-icon");
+const revancheDiv = document.querySelector(".revanche-div");
 const endgame_p = document.querySelector(".endgame-p");
 const tempo_w_p = document.querySelector(".tempo-white");
 const tempo_b_p = document.querySelector(".tempo-black");
-const specsDiv = document.querySelector(".specs-div");
-const specsIcon = document.querySelector(".specs-icon");
+//const specsDiv = document.querySelector(".specs-div");
+//const specsIcon = document.querySelector(".specs-icon");
 const telaCarregamento = document.querySelector(".tela-carregamento");
 const main = document.querySelector("main");
 let board = document.querySelector(".tabuleiro");
@@ -76,8 +96,8 @@ function gridEventListener(){
             const x = j;
 
             tabuleiro[y][x].addEventListener("click", () => {
-                if (!tabuleiro[y][x].hasChildNodes()){
-                    socket.emit("addPecaBackend", { y: y, x: x });
+                if (!tabuleiro[y][x].hasChildNodes() && movesBack == 0){
+                    socket.emit("addPecaBackend", { y: y, x: x, room: gameRoom });
                 }
             });
         }
@@ -85,49 +105,124 @@ function gridEventListener(){
 
 }
 
-function addPeca(y, x, vezBrancas){
-
-    // Registro do lance - Visual
-    const peca = document.createElement("div");
-                    
-    if (vezBrancas == true)
-        peca.classList.add("peca-branca");
-    else
-        peca.classList.add("peca-preta");
+/*
+function renderGrid(){
 
 
-    tabuleiro[y][x].appendChild(peca);
 
+}
+*/
+
+function addPeca(y, x, vezBrancas, room){
+    if (gameRoom == room){
+        // Registro do lance - Visual
+        const peca = document.createElement("div");
+                        
+        if (vezBrancas == true)
+            peca.classList.add("peca-branca");
+        else
+            peca.classList.add("peca-preta");
+
+        if (movesBack > 0){
+            peca.classList.add("hidden");
+            movesBack++;
+        }
+
+        tabuleiro[y][x].appendChild(peca);
+    }
 
 }
 
 function desistir(){
 
-    socket.emit("desistir", null);
+    socket.emit("desistir", gameRoom);
 
 }
 
 function passarVez(){
 
-    socket.emit("passarVez", null);
+    socket.emit("passarVez", gameRoom);
 
 }
 
 function pedirRevanche(){
 
-    // Se o pedido for aceito
-        socket.emit("restart", null);
-        restart();
+    socket.emit("pedirRevanche", gameRoom);
+    revancheBtn.removeChild(revancheIcon);
+    
+    const loadingImg = document.createElement("img");
+    loadingImgContainer = document.createElement("div");
+    loadingImg.src = "../imgs/loadingRevanche";
+    loadingImg.classList = "w-8 h-8";
+    loadingImgContainer.classList = "w-full flex justify-center";
+
+    loadingImgContainer.appendChild(loadingImg)
+    revancheBtn.appendChild(loadingImgContainer);
 
 }
 
-function relogio(tempo_w, tempo_b){
+function solicitarRevanche(roomNumber){
 
-    tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
-    : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
+    if (roomNumber == gameRoom){
+        if (loadingImgContainer == null){
+            revancheBtn.classList.add("hidden");
+            revancheDiv.classList.remove("hidden");
+        }
+    }
 
-    tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
-    : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+}
+
+function aceitarRevanche(){
+
+    socket.emit("restart", gameRoom);
+
+}
+
+function recusarRevanche(){
+
+    socket.emit("recusarRevanche", gameRoom);
+
+    revancheDiv.classList.add("hidden");
+
+}
+
+function relogio(tempo_w, tempo_b, roomNumber){
+
+    if (roomNumber == gameRoom){
+        tempo_w_p.textContent = (tempo_w % 60 < 10 ? Math.floor(tempo_w / 60) + ":" + "0" + Math.floor(tempo_w % 60)
+        : Math.floor(tempo_w / 60) + ":" + Math.floor(tempo_w % 60));
+
+        tempo_b_p.textContent = (tempo_b % 60 < 10 ? Math.floor(tempo_b / 60) + ":" + "0" + Math.floor(tempo_b % 60)
+        : Math.floor(tempo_b / 60) + ":" + Math.floor(tempo_b % 60));
+    }
+
+}
+
+function moveBack(){
+
+    if (movesBack < casasAtivas.length)
+        movesBack++;
+
+    const lastIndex = casasAtivas.length - movesBack;
+
+    const x = casasAtivas[lastIndex][1];
+    const y = casasAtivas[lastIndex][0];
+
+    tabuleiro[y][x].firstChild.classList.add("hidden");
+
+}
+
+function moveForward(){
+
+    const lastIndex = casasAtivas.length - movesBack;
+
+    const x = casasAtivas[lastIndex][1];
+    const y = casasAtivas[lastIndex][0];
+
+    tabuleiro[y][x].firstChild.classList.remove("hidden");
+
+    if (movesBack > 0)
+        movesBack--;
 
 }
 
@@ -140,56 +235,81 @@ function specs(quant_specs){
 
 }
 
-function startGame(con){
+function startGame(roomNumber){
 
-    if (con >= 2){
-        telaCarregamento.classList.add("hidden");
-        main.classList.remove("hidden");
+    if (roomNumber == gameRoom){
+        if (!telaCarregamento.className.includes("hidden") || main.className.includes("hidden")){
+            telaCarregamento.classList.add("hidden");
+            main.classList.remove("hidden");
+        }
+
+        startSound.play();
     }
 
 }
 
 function endGame(data){
 
-    desistirBtn.classList.add("hidden");
-    passarBtn.classList.add("hidden");
-    revancheBtn.classList.remove("hidden");
+    const { roomNumber, brancasPontos, pretasPontos, brancasGanham } = data;
 
-    // Mostrar placar
-    endgame_p.textContent = data.brancasPontos + " - " + data.pretasPontos + "   ";
+    if (roomNumber == gameRoom){
+        desistirBtn.classList.add("hidden");
+        passarBtn.classList.add("hidden");
+        revancheBtn.classList.remove("hidden");
 
-    // Mostrar quem foi vitorioso
-    endgame_p.textContent += "Vitória das " + (data.brancasGanham == true ? "brancas" : "pretas") + "!";
+        // Mostrar placar
+        endgame_p.innerHTML = `<p class="endgame-p text-lg"> ${brancasPontos} - ${pretasPontos} <br>`;
 
-}
+        // Mostrar quem foi vitorioso
+        endgame_p.innerHTML += `Vitória das ${(brancasGanham == true ? 'brancas' : 'pretas')}! </p>`;
 
-function mensagemJogo(msg){
-
-    const mensagem_jogo = document.createElement("p");
-
-    mensagem_jogo.textContent = msg;
-    mensagem_jogo.className = "msg-jogo";
-
-    mensagensField.appendChild(mensagem_jogo);
+        endSound.play();
+    }
 
 }
 
-function restart(){
+function mensagemJogo(msg, roomNumber){
 
-    tabuleiro = [];
-    board.remove();
-    board = document.createElement("section");
-    board.classList = "tabuleiro mt-12";
-    tabuleiroDiv.appendChild(board);
+    if (gameRoom == roomNumber){
+        const mensagem_jogo = document.createElement("p");
 
-    createGrid();
-    gridEventListener();
+        mensagem_jogo.textContent = msg;
+        mensagem_jogo.className = "msg-jogo";
 
-    desistirBtn.classList.remove("hidden");
-    passarBtn.classList.remove("hidden");
-    revancheBtn.classList.add("hidden");
+        mensagensField.appendChild(mensagem_jogo);
+    }
 
-    endgame_p.textContent = " ";
+}
+
+function restart(roomNumber){
+
+    if (roomNumber == gameRoom){
+        tabuleiro = [];
+        board.remove();
+        board = document.createElement("section");
+        board.classList = "tabuleiro mt-12";
+        tabuleiroDiv.appendChild(board);
+
+        createGrid();
+        gridEventListener();
+
+        desistirBtn.classList.remove("hidden");
+        passarBtn.classList.remove("hidden");
+
+        if (!revancheDiv.className.includes("hidden")){
+            revancheDiv.classList.add("hidden");
+        }
+        if (loadingImgContainer != null){
+            revancheBtn.removeChild(loadingImgContainer);
+            revancheBtn.appendChild(revancheIcon);
+        }
+        
+        revancheBtn.classList = "botao-jogo botao-restart hidden";
+
+        endgame_p.textContent = " ";
+
+        loadingImgContainer = null;
+    }
 
 }
 
@@ -205,31 +325,37 @@ textbox.addEventListener("keyup", (event) => {
 function enviarMsg(){
 
     if (textbox.value[0] != " " && textbox.value != ""){
-        socket.emit("chat", textbox.value);
+        const text = textbox.value;
+
+        socket.emit("chat", { text, gameRoom });
         clearTextbox();
     }
 
 }
 
-function regMsg(data){
+function regMsg(data, chatPlayer){
 
-    if (data.chatPlayer != null){
+    const { text, roomNumber } = data;
 
-        const mensagem = document.createElement("div");
-        mensagem.classList.add("msg");
+    if (roomNumber == gameRoom){
+        if (chatPlayer != null){
 
-        const peca = document.createElement("div");
-        peca.className = (data.chatPlayer == "brancas" ? "peca-branca-chat" : "peca-preta-chat");
+            const mensagem = document.createElement("div");
+            mensagem.classList.add("msg");
 
-        const mensagem_p = document.createElement("p");
-        mensagem_p.classList.add("msg-p");
+            const peca = document.createElement("div");
+            peca.className = (chatPlayer == "brancas" ? "peca-branca-chat" : "peca-preta-chat");
 
-        mensagem_p.textContent = data.data;
+            const mensagem_p = document.createElement("p");
+            mensagem_p.classList.add("msg-p");
 
-        mensagem.appendChild(peca);
-        mensagem.appendChild(mensagem_p);
-        mensagensField.appendChild(mensagem);
-        
+            mensagem_p.textContent = text;
+
+            mensagem.appendChild(peca);
+            mensagem.appendChild(mensagem_p);
+            mensagensField.appendChild(mensagem);
+            
+        }
     }
 
 }
@@ -243,34 +369,62 @@ function clearTextbox(){
 
 /* Listeners do server */
 socket.on("chat", (data) => {
-    regMsg(data);
+    const { text, gameRoom } = data.data;
+
+    regMsg({ text, roomNumber: gameRoom }, data.chatPlayer);
 });
 
 socket.on("addPecaBackend", (data) => {
-    addPeca(data.y, data.x, data.vezBrancas);
+    addPeca(data.y, data.x, data.vezBrancas, data.room);
 });
 
 socket.on("endGame", (data) => {
     endGame(data);
 });
 
+socket.on("confirmarRevanche", (data) => {
+    solicitarRevanche(data);
+});
+
+socket.on("revancheRecusada", (data) => {
+    mensagemJogo("Proposta de revanche recusada.", data);
+});
+
 socket.on("restart", (data) => {
-    restart();
+    restart(data);
 });
 
 socket.on("desconexao", (data) => {
-    mensagemJogo(data + " saíram do jogo, encerrando partida...");
+    mensagemJogo(`${data.cor} saíram do jogo. Encerrando partida...`, data.roomNumber);
 });
 
 socket.on("updateRelogio", (data) => {
-    relogio(data.tempo_w, data.tempo_b);
+    relogio(data.tempo_w, data.tempo_b, data.roomNumber);
 });
 
 socket.on("updateSpecs", (data) => {
     specs(data);
 });
 
+socket.on("regRoom", (data) => {
+    if (gameRoom == null){
+        gameRoom = data;
+        startGame(gameRoom);
+    }
+});
+
+socket.on("serverFull", (data) => {
+    alert("Os servidores estão cheios no momento, tente novamente mais tarde.");
+    window.location = "index.html";
+});
+
+socket.on("updateCasasAtivas", (data) => {
+    if (data.roomNumber == gameRoom){
+        casasAtivas = data.casasAtivas;
+    }
+});
+
 /* Tela de espera */
 socket.on("updateConnections", (con) => {
-    startGame(con);
+    connections++;
 });
